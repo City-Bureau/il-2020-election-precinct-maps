@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="{{ site.locale }}" {{ htmlprops | safe }}>
+  <head>
+    {% include "head.njk" %}
+    {% include "assets.njk" %}
+  </head>
+  <body>
+    <main class="{{ mainClass }}">
+      {{ content | safe }}
+    </main>
+  </body>
+</html>

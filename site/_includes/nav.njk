@@ -1,0 +1,20 @@
+<header class="flex-row-center justify-center">
+  <div class="nav-contents flex-row-start justify-between flex-grow-1">
+    <div class="flex-row-center">
+      <a href="/"></a>
+    </div>
+    <nav id="nav" role="navigation" class="flex-column justify-end">
+      <button id="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
+        <span>Menu</span>
+        <span aria-hidden="true">☰</span>
+      </button>
+      <ul id="nav-menu" class="margin-0 flex-row-start">
+        {% for link in site.nav %}
+        <li>
+          <a href="{{ link.url }}" {% if link.url[0] != "/" %}target="_blank" rel="noopener"{% endif %}>{{ link.label }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+</header>

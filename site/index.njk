@@ -1,0 +1,54 @@
+---
+layout: base
+permalink: /
+mainClass: "map"
+style: "map.css"
+mapbox: true
+---
+<div id="map"></div>
+<div id="legend">
+  <h1 class="font-size-1 margin-bottom-1-5">
+    Illinois 2020 General Election
+  </h1>
+  <form action="" method="GET" id="legend-form">
+    <fieldset class="margin-bottom-1">
+      <legend>
+        Layer
+      </legend>
+      <div class="flex-column font-size-small">
+        <label>
+          <input name="layer" type="radio" value="points" checked>
+          <span>
+            Points
+          </span>
+        </label>
+        <label>
+          <input name="layer" type="radio" value="precincts">
+          <span>
+            Precincts
+          </span>
+        </label>
+      </div>
+    </fieldset>
+    {# TODO: Legend ramps, dots #}
+    <fieldset class="margin-bottom-1">
+      <legend>
+        Race
+      </legend>
+      <div class="flex-column font-size-small">
+        <label>
+          <input name="race" type="radio" value="il-constitution" checked>
+          <span>
+            Tax Amendment
+          </span>
+        </label>
+        <label>
+          <input name="race" type="radio" value="us-president">
+          <span>
+            US President
+          </span>
+        </label>
+      </div>
+    </fieldset>
+  </form>
+</div>

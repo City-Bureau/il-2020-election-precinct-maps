@@ -1,0 +1,359 @@
+:root {
+  --blue: #0052af;
+  --white: #fff;
+  --gray: #ccc;
+  --light-gray: #f1f1f1;
+  --text-color: #2c2e35;
+  --border: solid 1px var(--gray);
+  --box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.1);
+  --sans-serif: BlinkMacSystemFont, -apple-system, "Helvetica Neue", "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica", "Arial", sans-serif;
+  --font-size-small: 14px;
+  --font-size-reduced: 16px;
+  --font-size: 18px;
+  --font-size-1-25: 22px;
+  --font-size-1-5: 26px;
+  --font-size-2: 36px;
+  --font-size-2-5: 45px;
+  --font-size-3: 54px;
+  --nav-height: 60px;
+  --max-nav-width: 1024px;
+  --max-width: 1024px;
+  --max-content-width: 720px;
+}
+
+/* Based on https://dev.to/hankchizljaw/a-modern-css-reset-6p3 */
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default padding */
+ul[class],
+ol[class] {
+  padding: 0;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* Remove list styles on ul, ol elements with a class attribute */
+ul[class],
+ol[class] {
+  list-style: none;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Natural flow and rhythm in articles by default */
+article > * + * {
+  margin-top: 1em;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+input[type="search"],
+input[type="email"] {
+  appearance: none;
+}
+
+fieldset {
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  padding-block-start: 0;
+  padding-block-end: 0;
+  padding-inline-start: 0;
+  padding-inline-end: 0;
+  border: none;
+  min-inline-size: min-content;
+}
+
+/* Remove all animations and transitions for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html,
+body {
+  background-color: var(--white);
+  font-family: var(--sans-serif);
+  margin: 0;
+  padding: 0;
+  font-size: var(--font-size);
+  color: var(--text-color);
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: var(--font-size-2);
+  margin-bottom: var(--grid-5);
+}
+
+h2 {
+  font-size: var(--font-size-1-5);
+  margin-bottom: var(--grid-3);
+}
+
+h3 {
+  font-size: var(--font-size-1-25);
+  margin-bottom: var(--grid-3);
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+a:active,
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+
+header {
+  background-color: var(--blue);
+  color: var(--white);
+  padding: var(--grid-3) var(--grid-2);
+  min-height: var(--nav-height);
+  font-weight: bold;
+  box-shadow: var(--box-shadow);
+}
+
+header .nav-contents {
+  max-width: var(--max-nav-width);
+}
+
+header a {
+  color: var(--white);
+}
+
+nav ul,
+footer ul {
+  list-style: none;
+}
+
+footer ul {
+  padding-left: 0;
+}
+
+nav ul li {
+  margin-right: var(--grid-3);
+}
+
+nav ul li:last-child {
+  margin-right: 0;
+}
+
+main {
+  min-height: calc(100vh - var(--nav-height));
+  max-width: var(--max-content-width);
+  padding: var(--grid-4) var(--grid-2);
+  margin: auto;
+}
+
+footer {
+  background-color: var(--light-gray);
+  padding: var(--grid-2);
+  min-height: 120px;
+}
+
+.content p:not(:last-child) {
+  margin-bottom: var(--grid-2);
+}
+
+.content a {
+  text-decoration: underline;
+}
+
+.content a:hover,
+.content a:focus,
+.content a:active {
+  color: var(--text-color);
+}
+
+#nav-toggle {
+  cursor: pointer;
+  display: none;
+  text-align: right;
+  appearance: none;
+  background-color: transparent;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  border-width: 0;
+  box-sizing: border-box;
+  color: var(--white);
+  padding: 0;
+  margin: 0;
+}
+
+#nav-toggle [aria-hidden="true"] {
+  margin-left: var(--grid-05);
+}
+
+#nav-menu {
+  padding-left: 0;
+}
+
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.visually-hidden-focusable:not(:focus) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+@media screen and (max-width: 750px) {
+  #nav-toggle {
+    display: flex;
+  }
+  #nav-toggle[aria-expanded="false"] + #nav-menu {
+    display: none;
+  }
+  #nav-menu {
+    margin-top: var(--grid-2);
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+  nav ul li {
+    margin-right: 0;
+    text-align: right;
+  }
+  nav ul li:not(:last-child) {
+    margin-bottom: var(--grid);
+  }
+}
+
+/* Hack for IE 11-only styles */
+@media screen and (-ms-high-contrast: active),
+  screen and (-ms-high-contrast: none) {
+  main {
+    display: flex;
+    flex-direction: column;
+  }
+  header .nav-contents,
+  main,
+  .max-width,
+  .max-content-width {
+    width: 100%;
+  }
+  .min-height-80 {
+    height: 0;
+  }
+}
+
+main.map {
+  min-height: 0;
+  height: calc(100vh - var(--nav-height));
+  width: 100vw;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.mapboxgl-popup {
+  width: 200px;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#legend {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 300px;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 8px;
+}
+
+@media screen and (min-width: 600px) {
+  #legend {
+    bottom: 24px;
+    right: 8px;
+    left: auto;
+    max-width: 225px;
+  }
+}

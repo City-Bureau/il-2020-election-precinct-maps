@@ -1,0 +1,21 @@
+{% if mapbox %}
+<script src="static/mapbox-gl.js"></script>
+<link href="static/mapbox-gl.css" rel="stylesheet" />
+{% endif %}
+
+{%- set css -%}
+  {%- include "style.css" -%}
+  {%- if style -%}
+    {%- include style -%}
+  {%- endif -%}
+{%- endset -%}
+
+<style type="text/css">
+  {{ css | safe }}
+</style>
+
+<script type="module">{% include "index.js" %}</script>
+
+{% if site.environment != "development" %}
+  {% include "webpack.njk" %}
+{% endif %}
