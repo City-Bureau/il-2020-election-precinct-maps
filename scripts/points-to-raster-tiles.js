@@ -65,6 +65,9 @@ const voteColor = (vote) => {
   if (vote === "us-president-rep") {
     return "202,0,32"
   }
+  if (vote === "us-president-otr") {
+    return "77,175,74"
+  }
 }
 
 async function run() {
@@ -102,7 +105,7 @@ async function run() {
     const [tileMinX, tileMinY, tileMaxX, tileMaxY] = merc.bbox(x, y, z)
     const tilePointIdxArr = index.range(tileMinX, tileMinY, tileMaxX, tileMaxY)
     if (tilePointIdxArr.length === 0) {
-      console.log(`skipping: ${z}/${x}/${y}.webp`)
+      console.log(`skipping: ${z}/${x}/${y}`)
       return new Promise((res) => res())
     }
     const [tileMinXPx, tileMinYPx] = merc.px([tileMinX, tileMinY], z)
@@ -114,20 +117,24 @@ async function run() {
       merc,
       tilePointIdxArr
     )
-    console.log(`creating: ${z}/${x}/${y}.webp`)
-    return writeTile(outputDir, z, x, y, `webp`, canvasBuff)
+    console.log(`creating: ${z}/${x}/${y}`)
+    return writeTile(outputDir, z, x, y, canvasBuff)
   })
 }
 
-function writeTile(outputDir, z, x, y, ext, data) {
+function writeTile(outputDir, z, x, y, data) {
   const dir = path.join(outputDir, `${z}`, `${x}`)
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true })
   }
-  sharp(data)
-    .toFormat(ext === "webp" ? sharp.format.webp : sharp.format.png)
-    .resize(SIZE)
-    .toFile(path.join(dir, `${y}.${ext}`))
+  return Promise.all(
+    ["png", "webp"].map((ext) =>
+      sharp(data)
+        .resize(SIZE)
+        .toFormat(sharp.format[ext])
+        .toFile(path.join(dir, `${y}.${ext}`))
+    )
+  )
 }
 
 function renderTile(z, tileMinXPx, tileMinYPx, points, merc, idxArr) {

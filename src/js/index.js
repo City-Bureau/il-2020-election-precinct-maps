@@ -74,13 +74,40 @@ function getMapRace() {
   return document.querySelector(`input[name="race"]:checked`).value
 }
 
+// https://stackoverflow.com/a/54120785
+function checkWebPSupport(map) {
+  const webP = new Image()
+  webP.src =
+    "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA"
+  webP.onload = webP.onerror = () => {
+    // Ignore if webP loads successfully
+    if (webP.height === 2) return
+
+    // If webP is not supported, fallback to PNG layers
+    const rasterSources = ["points-il-constitution", "points-us-president"]
+    rasterSources.forEach((source) => {
+      const layers = map.getStyle().layers
+      const layerIdx = layers.findIndex(({ id }) => id === source)
+      const layer = layers[layerIdx]
+      const before = layers[layerIdx + 1].id
+      layer.source = `${source}-png`
+      map.removeLayer(source)
+      map.addLayer(layer, before)
+    })
+  }
+}
+
 function onMapLoad(map) {
+  checkWebPSupport(map)
+
   let mapData = { hoverId: null, clickId: null }
 
   const eventLayer = "precincts"
   const layers = [
     "precincts-il-constitution",
     "precincts-us-president",
+    "precincts-diff",
+    "precincts-turnout",
     "points-il-constitution",
     "points-us-president",
   ]
@@ -162,6 +189,17 @@ function onMapLoad(map) {
       <span class="flex-1">Trump</span>
       <span class="flex-1">
         ${(presidentRep / presidentVotes).toLocaleString(`en-us`, {
+          style: `percent`,
+        })}
+      </span>
+    </div>
+    <div class="flex-row-center">
+      <span class="flex-1">Other</span>
+      <span class="flex-1">
+        ${(
+          (presidentVotes - presidentDem - presidentRep) /
+          presidentVotes
+        ).toLocaleString(`en-us`, {
           style: `percent`,
         })}
       </span>
@@ -307,9 +345,9 @@ function setupMap() {
   const map = new window.mapboxgl.Map({
     container: mapContainer,
     center: [-90, 39.6],
-    minZoom: 5.5,
+    minZoom: 5.6,
     maxZoom: 12,
-    zoom: 5.5,
+    zoom: 5.6,
     hash: true,
     dragRotate: false,
     style: `/style.json`,

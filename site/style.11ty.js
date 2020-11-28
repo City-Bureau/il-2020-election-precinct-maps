@@ -33,6 +33,20 @@ exports.render = ({ site }) =>
         maxzoom: 12,
         tileSize: 256, // Allows for higher resolutions at lower zooms
       },
+      "points-il-constitution-png": {
+        type: "raster",
+        tiles: [site.ilConstitutionPointTiles.replace(".webp", ".png")],
+        minzoom: 6,
+        maxzoom: 12,
+        tileSize: 256,
+      },
+      "points-us-president-png": {
+        type: "raster",
+        tiles: [site.usPresidentPointTiles.replace(".webp", ".png")],
+        minzoom: 6,
+        maxzoom: 12,
+        tileSize: 256,
+      },
     },
     sprite: "https://openmaptiles.github.io/maptiler-toner-gl-style/sprite",
     glyphs: `https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=${site.openmaptilesKey}`,
