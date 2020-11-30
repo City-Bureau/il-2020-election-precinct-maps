@@ -257,7 +257,7 @@ function onMapLoad(map) {
       layers: [eventLayer],
     })
     handleFeaturesHover(features)
-    handleFeaturesClick(features)
+    handleFeaturesClick(clickPopup.isOpen() ? [] : features)
     if (features.length > 0) {
       map.getCanvas().style.cursor = "pointer"
       removePopup(hoverPopup)

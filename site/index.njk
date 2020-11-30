@@ -8,34 +8,14 @@ mapbox: true
 <div id="logo">
   <a href="https://citybureau.org" target="_blank">
     <span class="visually-hidden">City Bureau</span>
-    <img src="{{ site.url }}{% resizeImage './src/img/icon.png', '64x64' %}" alt="City Bureau logo" />
+    <img src="{{ site.url }}{% resizeImage './src/img/icon.png', '128x128' %}" alt="City Bureau logo" />
   </a>
 </div>
 <div id="legend">
   <h1>
     Illinois 2020 General Election
   </h1>
-  {# TODO: Brief description? #}
   <form action="" method="GET" id="legend-form">
-    <fieldset>
-      <legend>
-        Layer
-      </legend>
-      <div class="layer-options">
-        <label>
-          <input name="layer" type="radio" value="points" checked>
-          <span>
-            Vote Dots
-          </span>
-        </label>
-        <label>
-          <input name="layer" type="radio" value="precincts">
-          <span>
-            Precincts
-          </span>
-        </label>
-      </div>
-    </fieldset>
     <div class="scale points" data-layer="points-il-constitution">
       <div class="scale-point">
         <span class="point yes"></span>
@@ -81,7 +61,7 @@ mapbox: true
       </div>
     </div>
     <fieldset>
-      <legend>
+      <legend class="visually-hidden">
         Race
       </legend>
       <div class="race-options">
@@ -97,6 +77,25 @@ mapbox: true
             US President
           </span>
         </label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend class="visually-hidden">
+        Layer
+      </legend>
+      <div class="layer-options">
+        <div class="layer-option">
+          <input id="layer-points" name="layer" type="radio" value="points" checked>
+          <label class="" for="layer-points">
+            Vote Dots
+          </label>
+        </div>
+        <div class="layer-option">
+          <input id="layer-precincts" name="layer" type="radio" value="precincts">
+          <label class="" for="layer-precincts">
+            Precincts
+          </label>
+        </div>
       </div>
     </fieldset>
     {# TODO: Data notes? #}
