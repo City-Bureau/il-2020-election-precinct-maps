@@ -11,7 +11,7 @@
     "start:postcss": "postcss ./src/css -d ./site/_includes -w",
     "start:tiles": "node -r esm ./scripts/tile-server.js ./data/precincts/il.mbtiles",
     "start:raster": "http-server -p 8000 ./tiles --cors",
-    "build": "NODE_ENV=production ELEVENTY_ENV=production run-s -l build:*",
+    "build": "NODE_ENV=production run-s -l build:*",
     "build:clean": "rm -rf dist",
     "build:rollup": "rollup --config rollup.config.js",
     "build:postcss": "postcss ./src/css -d ./site/_includes",
@@ -54,7 +54,6 @@
     "npm-run-all": "^4.1.5",
     "postcss": "^7.0.32",
     "postcss-cli": "^7.1.1",
-    "postcss-import": "^12.0.1",
     "prettier": "^2.0.5",
     "prettier-eslint": "^11.0.0",
     "rollup": "^2.26.3",
@@ -62,14 +61,13 @@
     "rollup-plugin-terser": "^7.0.0",
     "sharp": "^0.26.3",
     "source-map-explorer": "^2.4.2",
-    "tiny-async-pool": "^1.2.0",
     "terser-webpack-plugin": "^4.1.0",
+    "tiny-async-pool": "^1.2.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
     "classlist-polyfill": "^1.2.0",
-    "css-vars-ponyfill": "^2.4.2",
     "formdata-polyfill": "^3.0.20",
     "mapbox-gl": "^1.12.0"
   },
