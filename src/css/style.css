@@ -317,7 +317,7 @@ footer {
 
 main.map {
   min-height: 0;
-  height: calc(100vh - var(--nav-height));
+  height: 100vh;
   width: 100vw;
   max-width: 100%;
   padding: 0;
@@ -349,11 +349,35 @@ main.map {
   padding: 8px;
 }
 
+#legend h1 {
+  font-size: var(--font-size-1-25);
+}
+
+#legend legend {
+  font-weight: 500;
+  font-size: var(--font-size);
+}
+
+#legend label {
+  font-size: var(--font-size-reduced);
+}
+
+.layer-options {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.race-options label {
+  display: block;
+}
+
 @media screen and (min-width: 600px) {
   #legend {
     bottom: 24px;
     right: 8px;
     left: auto;
-    max-width: 225px;
+    max-width: 400px;
   }
 }

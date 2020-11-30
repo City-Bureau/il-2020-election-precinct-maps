@@ -1,65 +1,4 @@
-function setupNavToggle() {
-  const navToggle = document.getElementById("nav-toggle")
-  if (!navToggle) return
-
-  navToggle.addEventListener("click", () => {
-    const expanded = navToggle.getAttribute("aria-expanded")
-    navToggle.setAttribute("aria-expanded", !(expanded === "true"))
-  })
-}
-
-function searchParamsToForm(form) {
-  const searchParams = new URLSearchParams(window.location.search)
-
-  for (let [key, value] of searchParams.entries()) {
-    const input = form.elements[key]
-    if (input.type === "checkbox") {
-      input.checked = !!value
-    } else {
-      input.value = value
-    }
-  }
-}
-
-function formToObj(form) {
-  const formObj = {}
-  const formNames = [
-    ...new Set(
-      Object.values(form.elements)
-        .map(
-          (input) =>
-            (input instanceof NodeList || input instanceof HTMLCollection
-              ? input[0]
-              : input
-            ).name
-        )
-        .filter((name) => !!name)
-    ),
-  ]
-  const formData = new FormData(form)
-
-  formNames.map((name) => {
-    let value = formData.get(name)
-    if (form.elements[name].type === "checkbox") {
-      value = !!value
-    }
-    formObj[name] = value
-  })
-  return formObj
-}
-
-function formObjToSearchParams(formObj) {
-  const params = new URLSearchParams({
-    ...Object.fromEntries(Object.entries(formObj).filter((entry) => entry[1])),
-  })
-  window.history.replaceState(
-    {},
-    window.document.title,
-    `${window.location.protocol}//${window.location.host}${
-      window.location.pathname
-    }${params.toString() === `` ? `` : `?${params}`}`
-  )
-}
+import { searchParamsToForm, formToObj, formObjToSearchParams } from "./utils"
 
 function updateSearchParams() {
   const form = document.getElementById("legend-form")
@@ -75,13 +14,30 @@ function getMapRace() {
 }
 
 // https://stackoverflow.com/a/54120785
-function checkWebPSupport(map) {
-  const webP = new Image()
-  webP.src =
-    "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA"
-  webP.onload = webP.onerror = () => {
+function checkWebPSupport() {
+  return new Promise((resolve) => {
+    const webP = new Image()
+    webP.src =
+      "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA"
+    webP.onload = webP.onerror = () => resolve(webP.height === 2)
+  })
+}
+
+function onMapLoad(map) {
+  let mapData = { hoverId: null, clickId: null }
+
+  const eventLayer = "precincts"
+  const layers = [
+    "precincts-il-constitution",
+    "precincts-us-president",
+    "points-il-constitution",
+    "points-us-president",
+  ]
+
+  // Fallback to PNG raster layers if webP not supported
+  checkWebPSupport().then((webPSupported) => {
     // Ignore if webP loads successfully
-    if (webP.height === 2) return
+    if (webPSupported) return
 
     // If webP is not supported, fallback to PNG layers
     const rasterSources = ["points-il-constitution", "points-us-president"]
@@ -94,23 +50,7 @@ function checkWebPSupport(map) {
       map.removeLayer(source)
       map.addLayer(layer, before)
     })
-  }
-}
-
-function onMapLoad(map) {
-  checkWebPSupport(map)
-
-  let mapData = { hoverId: null, clickId: null }
-
-  const eventLayer = "precincts"
-  const layers = [
-    "precincts-il-constitution",
-    "precincts-us-president",
-    "precincts-diff",
-    "precincts-turnout",
-    "points-il-constitution",
-    "points-us-president",
-  ]
+  })
 
   const hoverPopup = new window.mapboxgl.Popup({
     closeButton: false,
@@ -126,6 +66,7 @@ function onMapLoad(map) {
     popup.remove()
   }
 
+  // TODO: Only show active layer data
   const popupContent = ({
     properties: {
       precinct,
@@ -140,7 +81,9 @@ function onMapLoad(map) {
       [`us-president-votes`]: presidentVotes,
     },
   }) => `
-    <h2 class="font-size-1 margin-bottom-1">${authority.toUpperCase()}</h2>
+    <h2 class="font-size-1 margin-bottom-1">${authority
+      .replace(/-/gi, " ")
+      .toUpperCase()}</h2>
     <h3 class="font-size-1 margin-bottom-2">${precinct}</h2>
     ${
       taxVotes >= 0
@@ -350,7 +293,7 @@ function setupMap() {
     zoom: 5.6,
     hash: true,
     dragRotate: false,
-    style: `/style.json`,
+    style: `style.json`,
   })
 
   map.touchZoomRotate.disableRotation()
@@ -366,12 +309,8 @@ function setupMap() {
   })
 }
 
-// Setup mobile navigation menu
 document.addEventListener("DOMContentLoaded", () => {
-  setupNavToggle()
-
   const form = document.getElementById("legend-form")
   searchParamsToForm(form)
-
   setupMap()
 })

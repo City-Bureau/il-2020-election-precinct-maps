@@ -1,9 +1,11 @@
+S3_BUCKET = city-bureau-projects
+# TODO: Change to il-2020-election-maps
 DEPLOY_PATH = il-2020-precinct-maps-stg
 
 .PHONY: deploy-site
 deploy-site:
-	aws s3 sync dist/ s3://$(S3_BUCKET)/$(DEPLOY_PATH) --acl=public-read --cache-control "public, max-age=31536000" --size-only --exclude "*.html" --exclude "manifest.json" --exclude "style.json"
-	aws s3 sync dist/ s3://$(S3_BUCKET)/$(DEPLOY_PATH) --acl=public-read --cache-control "public, max-age=0, must-revalidate" --size-only --exclude "*" --include "*.html" --include "manifest.json" --include "style.json"
+	aws s3 sync dist/ s3://$(S3_BUCKET)/$(DEPLOY_PATH) --size-only --acl=public-read --cache-control "public, max-age=31536000" --exclude "*.html" --exclude "manifest.json" --exclude "style.json"
+	aws s3 sync dist/ s3://$(S3_BUCKET)/$(DEPLOY_PATH) --acl=public-read --cache-control "public, max-age=0, must-revalidate" --exclude "*" --include "*.html" --include "manifest.json" --include "style.json"
 	aws cloudfront create-invalidation --distribution-id $(CLOUDFRONT_ID) --paths "/$(DEPLOY_PATH)/*"
 
 .PHONY: deploy-tiles

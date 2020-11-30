@@ -4,7 +4,7 @@ const host = production
   ? "https://projects.citybureau.org"
   : "http://localhost:8080"
 
-const baseurl = production ? "/il-2020-election-maps-stg" : ""
+const baseurl = production ? "/il-2020-precinct-maps-stg" : ""
 
 const precinctTiles = production
   ? `${host}${baseurl}/tiles/{z}/{x}/{y}.pbf`

@@ -2,20 +2,20 @@
 layout: base
 permalink: /
 mainClass: "map"
-style: "map.css"
 mapbox: true
 ---
 <div id="map"></div>
 <div id="legend">
-  <h1 class="font-size-1 margin-bottom-1-5">
+  <h1>
     Illinois 2020 General Election
   </h1>
+  {# TODO: Brief description? #}
   <form action="" method="GET" id="legend-form">
-    <fieldset class="margin-bottom-1">
+    <fieldset>
       <legend>
         Layer
       </legend>
-      <div class="flex-column font-size-small">
+      <div class="layer-options">
         <label>
           <input name="layer" type="radio" value="points" checked>
           <span>
@@ -31,11 +31,11 @@ mapbox: true
       </div>
     </fieldset>
     {# TODO: Legend ramps, dots #}
-    <fieldset class="margin-bottom-1">
+    <fieldset>
       <legend>
         Race
       </legend>
-      <div class="flex-column font-size-small">
+      <div class="race-options">
         <label>
           <input name="race" type="radio" value="il-constitution" checked>
           <span>
@@ -50,5 +50,6 @@ mapbox: true
         </label>
       </div>
     </fieldset>
+    {# TODO: Data notes? #}
   </form>
 </div>
