@@ -66,7 +66,6 @@ function onMapLoad(map) {
     popup.remove()
   }
 
-  // TODO: Only show active layer data
   const popupContent = ({
     properties: {
       precinct,
@@ -81,64 +80,78 @@ function onMapLoad(map) {
       [`us-president-votes`]: presidentVotes,
     },
   }) => `
-    <h2 class="font-size-1 margin-bottom-1">${authority
-      .replace(/-/gi, " ")
-      .toUpperCase()}</h2>
-    <h3 class="font-size-1 margin-bottom-2">${precinct}</h2>
+    <h2>${authority.replace(/-/gi, " ").toUpperCase()}</h2>
+    <h3>${precinct}</h2>
     ${
-      taxVotes >= 0
+      getMapRace().includes("il-constitution")
         ? `<p class="bold">
-      Fair Tax
+      Tax Amendment
     </p>
-    <div class="flex-row-center">
-      <span class="flex-1">Yes</span>
-      <span class="flex-1">
+    <div class="tooltip-row">
+      <span class="label">
+        <span class="yes point"></span>
+        <span>Yes</span>
+      </span>
+      <span class="value">
         ${(taxYes / taxVotes).toLocaleString(`en-us`, {
           style: `percent`,
         })}
       </span>
     </div>
-    <div class="flex-row-center">
-      <span class="flex-1">No</span>
-      <span class="flex-1">
+    <div class="tooltip-row">
+      <span class="label">
+        <span class="no point"></span>
+        <span>No</span>
+      </span>
+      <span class="value">
         ${(taxNo / taxVotes).toLocaleString(`en-us`, {
           style: `percent`,
         })}
       </span>
     </div>
-    <div class="flex-row-center">
-      <span class="flex-1">Votes</span>
-      <span class="flex-1">
+    <div class="tooltip-row">
+      <span class="label">Votes</span>
+      <span class="value">
         ${(taxVotes / ballots).toLocaleString(`en-us`, {
           style: `percent`,
         })}
       </span>
-    </div>
-    <hr>`
+    </div>`
         : ``
     }
-    <p class="bold">
+    ${
+      getMapRace().includes("us-president")
+        ? `<p class="bold">
       US President
     </p>
-    <div class="flex-row-center">
-      <span class="flex-1">Biden</span>
-      <span class="flex-1">
+    <div class="tooltip-row">
+      <span class="label">
+        <span class="dem point"></span>
+        <span>Biden</span>
+      </span>
+      <span class="value">
         ${(presidentDem / presidentVotes).toLocaleString(`en-us`, {
           style: `percent`,
         })}
       </span>
     </div>
-    <div class="flex-row-center">
-      <span class="flex-1">Trump</span>
-      <span class="flex-1">
+    <div class="tooltip-row">
+      <span class="label">
+        <span class="rep point"></span>
+        <span>Trump</span>
+      </span>
+      <span class="value">
         ${(presidentRep / presidentVotes).toLocaleString(`en-us`, {
           style: `percent`,
         })}
       </span>
     </div>
-    <div class="flex-row-center">
-      <span class="flex-1">Other</span>
-      <span class="flex-1">
+    <div class="tooltip-row">
+      <span class="label">
+        <span class="other point"></span>
+        <span>Other</span>
+      </span>
+      <span class="value">
         ${(
           (presidentVotes - presidentDem - presidentRep) /
           presidentVotes
@@ -146,19 +159,24 @@ function onMapLoad(map) {
           style: `percent`,
         })}
       </span>
-    </div>
-    <hr>
-    <div class="flex-row-center">
-      <span class="bold flex-1">Ballots</span>
-      <span class="flex-1">
-        ${ballots.toLocaleString(`en-us`)}
-      </span>
-    </div>
-    <div class="flex-row-center">
-      <span class="bold flex-1">Turnout</span>
-      <span class="flex-1">
-        ${(ballots / registered).toLocaleString(`en-us`, { style: `percent` })}
-      </span>
+    </div>`
+        : ``
+    }
+    <div class="turnout-content">
+      <div class="tooltip-row">
+        <span class="bold label">Ballots</span>
+        <span class="value">
+          ${ballots.toLocaleString(`en-us`)}
+        </span>
+      </div>
+      <div class="tooltip-row">
+        <span class="bold label">Turnout</span>
+        <span class="value">
+          ${(ballots / registered).toLocaleString(`en-us`, {
+            style: `percent`,
+          })}
+        </span>
+      </div>
     </div>
   `
 
@@ -242,6 +260,7 @@ function onMapLoad(map) {
     handleFeaturesClick(features)
     if (features.length > 0) {
       map.getCanvas().style.cursor = "pointer"
+      removePopup(hoverPopup)
       clickPopup
         .setLngLat(e.lngLat)
         .setHTML(popupContent(features[0]))
@@ -262,11 +281,17 @@ function onMapLoad(map) {
 
     activeLayers.forEach((layer) => {
       map.setLayoutProperty(layer, "visibility", "visible")
+      document
+        .querySelector(`[data-layer="${layer}"]`)
+        .classList.toggle("hidden", false)
     })
     layers
       .filter((layer) => !activeLayers.includes(layer))
       .forEach((layer) => {
         map.setLayoutProperty(layer, "visibility", "none")
+        document
+          .querySelector(`[data-layer="${layer}"]`)
+          .classList.toggle("hidden", true)
       })
 
     updateSearchParams()

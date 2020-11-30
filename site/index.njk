@@ -5,6 +5,12 @@ mainClass: "map"
 mapbox: true
 ---
 <div id="map"></div>
+<div id="logo">
+  <a href="https://citybureau.org" target="_blank">
+    <span class="visually-hidden">City Bureau</span>
+    <img src="{% resizeImage './src/img/icon.png', '64x64' %}" alt="City Bureau logo" />
+  </a>
+</div>
 <div id="legend">
   <h1>
     Illinois 2020 General Election
@@ -19,7 +25,7 @@ mapbox: true
         <label>
           <input name="layer" type="radio" value="points" checked>
           <span>
-            Points
+            Vote Dots
           </span>
         </label>
         <label>
@@ -30,7 +36,50 @@ mapbox: true
         </label>
       </div>
     </fieldset>
-    {# TODO: Legend ramps, dots #}
+    <div class="scale points" data-layer="points-il-constitution">
+      <div class="scale-point">
+        <span class="point yes"></span>
+        <span>Yes</span>
+      </div>
+      <div class="scale-point">
+        <span class="point no"></span>
+        <span>No</span>
+      </div>
+      <p class="description">
+        Each dot represents one vote
+      </p>
+    </div>
+    <div class="scale points hidden" data-layer="points-us-president">
+      <div class="scale-point">
+        <span class="point dem"></span>
+        <span>Biden</span>
+      </div>
+      <div class="scale-point">
+        <span class="point rep"></span>
+        <span>Trump</span>
+      </div>
+      <div class="scale-point">
+        <span class="point other"></span>
+        <span>Other</span>
+      </div>
+      <p class="description">
+        Each dot represents one vote
+      </p>
+    </div>
+    <div class="scale precincts hidden" data-layer="precincts-il-constitution">
+      <div class="scale-precincts il-constitution"></div>
+      <div class="labels-precincts">
+        <span>Yes</span>
+        <span>No</span>
+      </div>
+    </div>
+    <div class="scale precincts hidden" data-layer="precincts-us-president">
+      <div class="scale-precincts us-president"></div>
+      <div class="labels-precincts">
+        <span>Biden</span>
+        <span>Trump</span>
+      </div>
+    </div>
     <fieldset>
       <legend>
         Race
