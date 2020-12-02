@@ -30,8 +30,10 @@ function onMapLoad(map) {
   const layers = [
     "precincts-il-constitution",
     "precincts-us-president",
+    "precincts-ballots",
     "points-il-constitution",
     "points-us-president",
+    "points-ballots",
   ]
 
   // Fallback to PNG raster layers if webP not supported
@@ -40,7 +42,11 @@ function onMapLoad(map) {
     if (webPSupported) return
 
     // If webP is not supported, fallback to PNG layers
-    const rasterSources = ["points-il-constitution", "points-us-president"]
+    const rasterSources = [
+      "points-il-constitution",
+      "points-us-president",
+      "points-ballots",
+    ]
     rasterSources.forEach((source) => {
       const layers = map.getStyle().layers
       const layerIdx = layers.findIndex(({ id }) => id === source)
@@ -108,14 +114,6 @@ function onMapLoad(map) {
           style: `percent`,
         })}
       </span>
-    </div>
-    <div class="tooltip-row">
-      <span class="label">Votes</span>
-      <span class="value">
-        ${(taxVotes / ballots).toLocaleString(`en-us`, {
-          style: `percent`,
-        })}
-      </span>
     </div>`
         : ``
     }
@@ -177,6 +175,25 @@ function onMapLoad(map) {
           })}
         </span>
       </div>
+      ${
+        getMapRace() !== "ballots"
+          ? `<div class="tooltip-row">
+        <span class="bold label">Blank</span>
+        <span class="value">
+          ${Math.max(
+            1 -
+              (getMapRace().includes("il-constitution")
+                ? taxVotes
+                : presidentVotes) /
+                ballots,
+            0
+          ).toLocaleString(`en-us`, {
+            style: `percent`,
+          })}
+        </span>
+      </div>`
+          : ``
+      }
     </div>
   `
 

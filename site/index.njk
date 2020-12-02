@@ -16,20 +16,7 @@ mapbox: true
     Illinois 2020 General Election
   </h1>
   <form action="" method="GET" id="legend-form">
-    <div class="scale points" data-layer="points-il-constitution">
-      <div class="scale-point">
-        <span class="point yes"></span>
-        <span>Yes</span>
-      </div>
-      <div class="scale-point">
-        <span class="point no"></span>
-        <span>No</span>
-      </div>
-      <p class="description">
-        Each dot represents one vote
-      </p>
-    </div>
-    <div class="scale points hidden" data-layer="points-us-president">
+    <div class="scale points" data-layer="points-us-president">
       <div class="scale-point">
         <span class="point dem"></span>
         <span>Biden</span>
@@ -43,15 +30,30 @@ mapbox: true
         <span>Other</span>
       </div>
       <p class="description">
-        Each dot represents one vote
+        Each dot is one vote randomly placed in a precinct
       </p>
     </div>
-    <div class="scale precincts hidden" data-layer="precincts-il-constitution">
-      <div class="scale-precincts il-constitution"></div>
-      <div class="labels-precincts">
+    <div class="scale points hidden" data-layer="points-il-constitution">
+      <div class="scale-point">
+        <span class="point yes"></span>
         <span>Yes</span>
+      </div>
+      <div class="scale-point">
+        <span class="point no"></span>
         <span>No</span>
       </div>
+      <p class="description">
+        Each dot is one vote randomly placed in a precinct
+      </p>
+    </div>
+    <div class="scale points hidden" data-layer="points-ballots">
+      <div class="scale-point">
+        <span class="point ballot"></span>
+        <span>Ballot</span>
+      </div>
+      <p class="description">
+        Each dot is one vote randomly placed in a precinct
+      </p>
     </div>
     <div class="scale precincts hidden" data-layer="precincts-us-president">
       <div class="scale-precincts us-president"></div>
@@ -60,21 +62,41 @@ mapbox: true
         <span>Trump</span>
       </div>
     </div>
+    <div class="scale precincts hidden" data-layer="precincts-il-constitution">
+      <div class="scale-precincts il-constitution"></div>
+      <div class="labels-precincts">
+        <span>Yes</span>
+        <span>No</span>
+      </div>
+    </div>
+    <div class="scale precincts hidden" data-layer="precincts-ballots">
+      <div class="scale-precincts ballots"></div>
+      <div class="labels-precincts">
+        <span><=50%</span>
+        <span>100%</span>
+      </div>
+    </div>
     <fieldset>
       <legend class="visually-hidden">
         Race
       </legend>
       <div class="race-options">
         <label>
-          <input name="race" type="radio" value="il-constitution" checked>
+          <input name="race" type="radio" value="us-president" checked>
+          <span>
+            US President
+          </span>
+        </label>
+        <label>
+          <input name="race" type="radio" value="il-constitution">
           <span>
             Tax Amendment
           </span>
         </label>
         <label>
-          <input name="race" type="radio" value="us-president">
+          <input name="race" type="radio" value="ballots">
           <span>
-            US President
+            Turnout
           </span>
         </label>
       </div>

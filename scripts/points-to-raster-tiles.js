@@ -68,6 +68,9 @@ const voteColor = (vote) => {
   if (vote === "us-president-otr") {
     return "77,175,74"
   }
+  if (vote === "ballots") {
+    return "77,175,74"
+  }
 }
 
 async function run() {

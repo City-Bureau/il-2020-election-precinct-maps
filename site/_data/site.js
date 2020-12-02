@@ -18,12 +18,17 @@ const usPresidentPointTiles = production
   ? `${host}${baseurl}/tiles/us-president/{z}/{x}/{y}.webp`
   : "http://localhost:8000/raster/us-president/{z}/{x}/{y}.webp"
 
+const ballotPointTiles = production
+  ? `${host}${baseurl}/tiles/ballots/{z}/{x}/{y}.webp`
+  : "http://localhost:8000/raster/ballots/{z}/{x}/{y}.webp"
+
 module.exports = {
   name: "Illinois 2020 Election Maps",
   title: "Illinois 2020 Election Maps",
   type: "website",
   baseurl,
   url: `${host}${baseurl}`,
+  // TODO: Update description
   description:
     "Precinct-level election results for the 2020 Illinois general election",
   production,
@@ -33,5 +38,6 @@ module.exports = {
   precinctTiles,
   ilConstitutionPointTiles,
   usPresidentPointTiles,
+  ballotPointTiles,
   nav: [{ url: "/about/", label: "About" }],
 }

@@ -33,6 +33,13 @@ exports.render = ({ site }) =>
         maxzoom: 12,
         tileSize: 256, // Allows for higher resolutions at lower zooms
       },
+      "points-ballots": {
+        type: "raster",
+        tiles: [site.ballotPointTiles],
+        minzoom: 6,
+        maxzoom: 12,
+        tileSize: 256,
+      },
       "points-il-constitution-png": {
         type: "raster",
         tiles: [site.ilConstitutionPointTiles.replace(".webp", ".png")],
@@ -43,6 +50,13 @@ exports.render = ({ site }) =>
       "points-us-president-png": {
         type: "raster",
         tiles: [site.usPresidentPointTiles.replace(".webp", ".png")],
+        minzoom: 6,
+        maxzoom: 12,
+        tileSize: 256,
+      },
+      "points-ballots-png": {
+        type: "raster",
+        tiles: [site.ballotPointTiles.replace(".webp", ".png")],
         minzoom: 6,
         maxzoom: 12,
         tileSize: 256,
@@ -199,7 +213,7 @@ exports.render = ({ site }) =>
         source: "points-il-constitution",
         type: "raster",
         layout: {
-          visibility: "visible",
+          visibility: "none",
         },
       },
       {
@@ -207,7 +221,15 @@ exports.render = ({ site }) =>
         source: "points-us-president",
         type: "raster",
         layout: {
-          visibility: "none",
+          visibility: "visible",
+        },
+      },
+      {
+        id: "points-ballots",
+        source: "points-ballots",
+        type: "raster",
+        layout: {
+          visibility: "visible",
         },
       },
       {
@@ -271,9 +293,9 @@ exports.render = ({ site }) =>
               ],
               0.45,
               "#f7f7f7",
-              0.675,
+              0.725,
               "#b2abd2",
-              0.9,
+              1.0,
               "#5e3c99",
             ],
             [
@@ -286,9 +308,9 @@ exports.render = ({ site }) =>
               ],
               0.45,
               "#f7f7f7",
-              0.675,
+              0.725,
               "#fdb863",
-              0.9,
+              1,
               "#e66101",
             ],
           ],
@@ -323,9 +345,9 @@ exports.render = ({ site }) =>
               ["/", ["get", "us-president-dem"], ["get", "us-president-votes"]],
               0.45,
               "#f7f7f7",
-              0.675,
+              0.725,
               "#92c5de",
-              0.9,
+              1,
               "#0571b0",
             ],
             [
@@ -334,11 +356,44 @@ exports.render = ({ site }) =>
               ["/", ["get", "us-president-rep"], ["get", "us-president-votes"]],
               0.45,
               "#f7f7f7",
-              0.675,
+              0.725,
               "#f4a582",
-              0.9,
+              1,
               "#ca0020",
             ],
+          ],
+        },
+      },
+      {
+        id: "precincts-ballots",
+        source: "precincts",
+        "source-layer": "precincts",
+        type: "fill",
+        layout: {
+          visibility: "none",
+        },
+        paint: {
+          "fill-outline-color": [
+            "case",
+            [
+              "any",
+              ["boolean", ["feature-state", "hover"], false],
+              ["boolean", ["feature-state", "click"], false],
+            ],
+            "rgba(0,0,0,0.7)",
+            "rgba(150,150,150,0)",
+          ],
+          "fill-opacity": 0.8,
+          "fill-color": [
+            "interpolate",
+            ["linear"],
+            ["/", ["get", "ballots"], ["get", "registered"]],
+            0.5,
+            "#edf8e9",
+            0.75,
+            "#74c476",
+            1,
+            "#006d2c",
           ],
         },
       },

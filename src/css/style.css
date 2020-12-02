@@ -208,6 +208,7 @@ main.map {
   height: 64px;
 }
 
+/* TODO: Border shadow on overflow */
 #legend {
   position: absolute;
   left: 0;
@@ -309,6 +310,7 @@ main.map {
 .race-options label {
   display: block;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .bold {
@@ -366,7 +368,8 @@ main.map {
   background-color: rgba(202, 0, 32, 0.8);
 }
 
-.other {
+.other,
+.ballot {
   background-color: rgba(77, 175, 74, 0.8);
 }
 
@@ -399,6 +402,11 @@ main.map {
   opacity: 0.8;
 }
 
+.scale-precincts.ballots {
+  background: linear-gradient(to right, #edf8e9, #74c476 50%, #006d2c);
+  opacity: 0.8;
+}
+
 .labels-precincts {
   display: flex;
   flex-direction: row;
@@ -414,6 +422,10 @@ main.map {
     width: 360px;
     max-height: 360px;
   }
+}
+
+.mapboxgl-popup {
+  z-index: 1;
 }
 
 .mapboxgl-popup .mapboxgl-popup-tip {
