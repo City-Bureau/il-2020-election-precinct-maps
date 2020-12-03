@@ -46,6 +46,27 @@ mapbox: true
         Each dot is one vote randomly placed in a precinct
       </p>
     </div>
+    <div class="scale points hidden" data-layer="points-us-senate">
+      <div class="scale-point">
+        <span class="point dem"></span>
+        <span>Durbin</span>
+      </div>
+      <div class="scale-point">
+        <span class="point rep"></span>
+        <span>Curran</span>
+      </div>
+      <div class="scale-point">
+        <span class="point wil"></span>
+        <span>Wilson</span>
+      </div>
+       <div class="scale-point">
+        <span class="point otr"></span>
+        <span>Other</span>
+      </div>
+      <p class="description">
+        Each dot is one vote randomly placed in a precinct
+      </p>
+    </div>
     <div class="scale points hidden" data-layer="points-ballots">
       <div class="scale-point">
         <span class="point ballot"></span>
@@ -67,6 +88,13 @@ mapbox: true
       <div class="labels-precincts">
         <span>Yes</span>
         <span>No</span>
+      </div>
+    </div>
+    <div class="scale precincts hidden" data-layer="precincts-us-senate">
+      <div class="scale-precincts us-senate"></div>
+      <div class="labels-precincts">
+        <span>Durbin</span>
+        <span>Curran</span>
       </div>
     </div>
     <div class="scale precincts hidden" data-layer="precincts-ballots">
@@ -112,6 +140,13 @@ mapbox: true
             Tax Amendment
           </span>
         </label>
+        {# TODO: Reenable Senate #}
+        {# <label>
+          <input name="race" type="radio" value="us-senate" checked>
+          <span>
+            US Senate
+          </span>
+        </label> #}
         <label>
           <input name="race" type="radio" value="ballots">
           <span>

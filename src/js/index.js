@@ -23,16 +23,135 @@ function checkWebPSupport() {
   })
 }
 
+function popupContent(
+  race,
+  {
+    properties: {
+      precinct,
+      authority,
+      registered,
+      ballots,
+      [`us-president-dem`]: presidentDem,
+      [`us-president-rep`]: presidentRep,
+      [`us-president-votes`]: presidentVotes,
+      [`il-constitution-yes`]: taxYes,
+      [`il-constitution-no`]: taxNo,
+      [`il-constitution-votes`]: taxVotes,
+      [`us-senate-dem`]: senateDem,
+      [`us-senate-rep`]: senateRep,
+      [`us-senate-wil`]: senateWil,
+      [`us-senate-votes`]: senateVotes,
+    },
+  }
+) {
+  let resultsLabel = ``
+  let votesValue = 0
+  let results = []
+
+  // Based on d3.descending
+  const sortByValue = ({ value: a }, { value: b }) =>
+    b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN
+
+  if (race.includes("us-president")) {
+    resultsLabel = "US President"
+    votesValue = presidentVotes
+    results = [
+      { label: "Biden", cls: "dem", value: presidentDem / presidentVotes },
+      { label: "Trump", cls: "rep", value: presidentRep / presidentVotes },
+      {
+        label: "Other",
+        cls: "otr",
+        value: (presidentVotes - presidentDem - presidentRep) / presidentVotes,
+      },
+    ]
+  } else if (race.includes("il-constitution")) {
+    resultsLabel = "Tax Amendment"
+    votesValue = taxVotes
+    results = [
+      { label: "Yes", cls: "yes", value: taxYes / taxVotes },
+      { label: "No", cls: "no", value: taxNo / taxVotes },
+    ]
+  } else if (race.includes("us-senate")) {
+    resultsLabel = "US Senate"
+    votesValue = senateVotes
+    results = [
+      { label: "Durbin", cls: "dem", value: senateDem / senateVotes },
+      { label: "Curran", cls: "rep", value: senateRep / senateVotes },
+      { label: "Wilson", cls: "wil", value: senateWil / senateVotes },
+      {
+        label: "Other",
+        cls: "otr",
+        value: (senateVotes - senateDem - senateRep - senateWil) / senateVotes,
+      },
+    ]
+  }
+  const resultsContent =
+    results.length > 0
+      ? `<p class="bold">${resultsLabel}</p>
+      ${results
+        .sort(sortByValue)
+        .map(
+          ({ label, cls, value }) => `
+  <div class="tooltip-row">
+    <span class="label">
+      <span class="${cls} point"></span>
+      <span>${label}</span>
+    </span>
+    <span class="value">
+      ${value.toLocaleString(`en-us`, { style: `percent` })}
+    </span>
+  </div>`
+        )
+        .join(``)}`
+      : ``
+
+  return `
+  <h2>${authority.replace(/-/gi, " ").toUpperCase()}</h2>
+  <h3>${precinct}</h2>
+  ${resultsContent}
+  <div class="turnout-content">
+      <div class="tooltip-row">
+        <span class="bold label">Ballots</span>
+        <span class="value">
+          ${ballots.toLocaleString(`en-us`)}
+        </span>
+      </div>
+      <div class="tooltip-row">
+        <span class="bold label">Turnout</span>
+        <span class="value">
+          ${(ballots / registered).toLocaleString(`en-us`, {
+            style: `percent`,
+          })}
+        </span>
+      </div>
+      ${
+        votesValue > 0
+          ? `<div class="tooltip-row">
+        <span class="bold label">Blank</span>
+        <span class="value">
+          ${Math.max(1 - votesValue / ballots, 0).toLocaleString(`en-us`, {
+            style: `percent`,
+          })}
+        </span>
+      </div>`
+          : ``
+      }
+  `
+}
+
 function onMapLoad(map) {
   let mapData = { hoverId: null, clickId: null }
 
   const eventLayer = "precincts"
+  // Could query data attributes for this?
   const layers = [
-    "precincts-il-constitution",
     "precincts-us-president",
+    "precincts-il-constitution",
+    // "precincts-us-senate",
     "precincts-ballots",
-    "points-il-constitution",
     "points-us-president",
+    "points-il-constitution",
+    // "points-us-senate",
     "points-ballots",
   ]
 
@@ -43,8 +162,9 @@ function onMapLoad(map) {
 
     // If webP is not supported, fallback to PNG layers
     const rasterSources = [
-      "points-il-constitution",
       "points-us-president",
+      "points-il-constitution",
+      // "points-us-senate",
       "points-ballots",
     ]
     rasterSources.forEach((source) => {
@@ -71,131 +191,6 @@ function onMapLoad(map) {
     map.getCanvas().style.cursor = ""
     popup.remove()
   }
-
-  const popupContent = ({
-    properties: {
-      precinct,
-      authority,
-      registered,
-      ballots,
-      [`il-constitution-yes`]: taxYes,
-      [`il-constitution-no`]: taxNo,
-      [`il-constitution-votes`]: taxVotes,
-      [`us-president-dem`]: presidentDem,
-      [`us-president-rep`]: presidentRep,
-      [`us-president-votes`]: presidentVotes,
-    },
-  }) => `
-    <h2>${authority.replace(/-/gi, " ").toUpperCase()}</h2>
-    <h3>${precinct}</h2>
-    ${
-      getMapRace().includes("il-constitution")
-        ? `<p class="bold">
-      Tax Amendment
-    </p>
-    <div class="tooltip-row">
-      <span class="label">
-        <span class="yes point"></span>
-        <span>Yes</span>
-      </span>
-      <span class="value">
-        ${(taxYes / taxVotes).toLocaleString(`en-us`, {
-          style: `percent`,
-        })}
-      </span>
-    </div>
-    <div class="tooltip-row">
-      <span class="label">
-        <span class="no point"></span>
-        <span>No</span>
-      </span>
-      <span class="value">
-        ${(taxNo / taxVotes).toLocaleString(`en-us`, {
-          style: `percent`,
-        })}
-      </span>
-    </div>`
-        : ``
-    }
-    ${
-      getMapRace().includes("us-president")
-        ? `<p class="bold">
-      US President
-    </p>
-    <div class="tooltip-row">
-      <span class="label">
-        <span class="dem point"></span>
-        <span>Biden</span>
-      </span>
-      <span class="value">
-        ${(presidentDem / presidentVotes).toLocaleString(`en-us`, {
-          style: `percent`,
-        })}
-      </span>
-    </div>
-    <div class="tooltip-row">
-      <span class="label">
-        <span class="rep point"></span>
-        <span>Trump</span>
-      </span>
-      <span class="value">
-        ${(presidentRep / presidentVotes).toLocaleString(`en-us`, {
-          style: `percent`,
-        })}
-      </span>
-    </div>
-    <div class="tooltip-row">
-      <span class="label">
-        <span class="other point"></span>
-        <span>Other</span>
-      </span>
-      <span class="value">
-        ${(
-          (presidentVotes - presidentDem - presidentRep) /
-          presidentVotes
-        ).toLocaleString(`en-us`, {
-          style: `percent`,
-        })}
-      </span>
-    </div>`
-        : ``
-    }
-    <div class="turnout-content">
-      <div class="tooltip-row">
-        <span class="bold label">Ballots</span>
-        <span class="value">
-          ${ballots.toLocaleString(`en-us`)}
-        </span>
-      </div>
-      <div class="tooltip-row">
-        <span class="bold label">Turnout</span>
-        <span class="value">
-          ${(ballots / registered).toLocaleString(`en-us`, {
-            style: `percent`,
-          })}
-        </span>
-      </div>
-      ${
-        getMapRace() !== "ballots"
-          ? `<div class="tooltip-row">
-        <span class="bold label">Blank</span>
-        <span class="value">
-          ${Math.max(
-            1 -
-              (getMapRace().includes("il-constitution")
-                ? taxVotes
-                : presidentVotes) /
-                ballots,
-            0
-          ).toLocaleString(`en-us`, {
-            style: `percent`,
-          })}
-        </span>
-      </div>`
-          : ``
-      }
-    </div>
-  `
 
   const handleFeaturesHover = (features) => {
     if (mapData.hoverId) {
@@ -256,7 +251,7 @@ function onMapLoad(map) {
       if (window.innerWidth >= 600) {
         hoverPopup
           .setLngLat(e.lngLat)
-          .setHTML(popupContent(features[0]))
+          .setHTML(popupContent(getMapRace(), features[0]))
           .addTo(map)
       }
     } else {
@@ -280,7 +275,7 @@ function onMapLoad(map) {
       removePopup(hoverPopup)
       clickPopup
         .setLngLat(e.lngLat)
-        .setHTML(popupContent(features[0]))
+        .setHTML(popupContent(getMapRace(), features[0]))
         .addTo(map)
     }
   }

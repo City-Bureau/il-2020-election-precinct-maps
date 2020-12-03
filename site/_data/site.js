@@ -18,6 +18,10 @@ const usPresidentPointTiles = production
   ? `${host}${baseurl}/tiles/us-president/{z}/{x}/{y}.webp`
   : "http://localhost:8000/raster/us-president/{z}/{x}/{y}.webp"
 
+const usSenatePointTiles = production
+  ? `${host}${baseurl}/tiles/us-senate/{z}/{x}/{y}.webp`
+  : "http://localhost:8000/raster/us-senate/{z}/{x}/{y}.webp"
+
 const ballotPointTiles = production
   ? `${host}${baseurl}/tiles/ballots/{z}/{x}/{y}.webp`
   : "http://localhost:8000/raster/ballots/{z}/{x}/{y}.webp"
@@ -38,6 +42,7 @@ module.exports = {
   precinctTiles,
   ilConstitutionPointTiles,
   usPresidentPointTiles,
+  usSenatePointTiles,
   ballotPointTiles,
   nav: [{ url: "/about/", label: "About" }],
 }

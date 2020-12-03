@@ -59,14 +59,17 @@ const voteColor = (vote) => {
   if (vote === "il-constitution-no") {
     return "230,97,1"
   }
-  if (vote === "us-president-dem") {
+  if (["us-president-dem", "us-senate-dem"].includes(vote)) {
     return "5,113,176"
   }
-  if (vote === "us-president-rep") {
+  if (["us-president-rep", "us-senate-rep"].includes(vote)) {
     return "202,0,32"
   }
-  if (vote === "us-president-otr") {
+  if (["us-president-otr", "us-senate-otr"].includes(vote)) {
     return "77,175,74"
+  }
+  if (vote === "us-senate-wil") {
+    return "230,171,2"
   }
   if (vote === "ballots") {
     return "77,175,74"

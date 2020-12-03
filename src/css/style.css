@@ -371,7 +371,12 @@ main.map {
   background-color: rgba(202, 0, 32, 0.8);
 }
 
+.wil {
+  background-color: rgba(230, 171, 2, 0.8);
+}
+
 .other,
+.otr,
 .ballot {
   background-color: rgba(77, 175, 74, 0.8);
 }
@@ -393,7 +398,8 @@ main.map {
   opacity: 0.8;
 }
 
-.scale-precincts.us-president {
+.scale-precincts.us-president,
+.scale-precincts.us-senate {
   background: linear-gradient(
     to right,
     #0571b0,

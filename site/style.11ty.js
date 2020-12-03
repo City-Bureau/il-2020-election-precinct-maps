@@ -34,6 +34,13 @@ exports.render = ({ site }) =>
         maxzoom: 12,
         tileSize: 256, // Allows for higher resolutions at lower zooms
       },
+      "points-us-senate": {
+        type: "raster",
+        tiles: [site.usSenatePointTiles],
+        minzoom: 6,
+        maxzoom: 12,
+        tileSize: 256,
+      },
       "points-ballots": {
         type: "raster",
         tiles: [site.ballotPointTiles],
@@ -51,6 +58,13 @@ exports.render = ({ site }) =>
       "points-us-president-png": {
         type: "raster",
         tiles: [site.usPresidentPointTiles.replace(".webp", ".png")],
+        minzoom: 6,
+        maxzoom: 12,
+        tileSize: 256,
+      },
+      "points-us-senate-png": {
+        type: "raster",
+        tiles: [site.usSenatePointTiles.replace(".webp", ".png")],
         minzoom: 6,
         maxzoom: 12,
         tileSize: 256,
@@ -226,6 +240,14 @@ exports.render = ({ site }) =>
         },
       },
       {
+        id: "points-us-senate",
+        source: "points-us-senate",
+        type: "raster",
+        layout: {
+          visibility: "visible",
+        },
+      },
+      {
         id: "points-ballots",
         source: "points-ballots",
         type: "raster",
@@ -355,6 +377,55 @@ exports.render = ({ site }) =>
               "interpolate",
               ["linear"],
               ["/", ["get", "us-president-rep"], ["get", "us-president-votes"]],
+              0.45,
+              "#f7f7f7",
+              0.725,
+              "#f4a582",
+              1,
+              "#ca0020",
+            ],
+          ],
+        },
+      },
+      // TODO: Find if Wilson or Malouf won any precincts
+      {
+        id: "precincts-us-senate",
+        source: "precincts",
+        "source-layer": "precincts",
+        type: "fill",
+        layout: {
+          visibility: "none",
+        },
+        paint: {
+          "fill-outline-color": [
+            "case",
+            [
+              "any",
+              ["boolean", ["feature-state", "hover"], false],
+              ["boolean", ["feature-state", "click"], false],
+            ],
+            "rgba(0,0,0,0.7)",
+            "rgba(150,150,150,0)",
+          ],
+          "fill-opacity": 0.8,
+          "fill-color": [
+            "case",
+            [">", ["get", "us-senate-dem"], ["get", "us-senate-rep"]],
+            [
+              "interpolate",
+              ["linear"],
+              ["/", ["get", "us-senate-dem"], ["get", "us-senate-votes"]],
+              0.45,
+              "#f7f7f7",
+              0.725,
+              "#92c5de",
+              1,
+              "#0571b0",
+            ],
+            [
+              "interpolate",
+              ["linear"],
+              ["/", ["get", "us-senate-rep"], ["get", "us-senate-votes"]],
               0.45,
               "#f7f7f7",
               0.725,
