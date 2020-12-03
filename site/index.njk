@@ -72,10 +72,29 @@ mapbox: true
     <div class="scale precincts hidden" data-layer="precincts-ballots">
       <div class="scale-precincts ballots"></div>
       <div class="labels-precincts">
-        <span><=50%</span>
+        <span><=50% turnout</span>
         <span>100%</span>
       </div>
     </div>
+    <fieldset>
+      <legend class="visually-hidden">
+        Layer
+      </legend>
+      <div class="layer-options">
+        <div class="layer-option">
+          <input id="layer-points" name="layer" type="radio" value="points" checked>
+          <label class="" for="layer-points">
+            Vote Dots
+          </label>
+        </div>
+        <div class="layer-option">
+          <input id="layer-precincts" name="layer" type="radio" value="precincts">
+          <label class="" for="layer-precincts">
+            Precincts
+          </label>
+        </div>
+      </div>
+    </fieldset>
     <fieldset>
       <legend class="visually-hidden">
         Race
@@ -99,25 +118,6 @@ mapbox: true
             Turnout
           </span>
         </label>
-      </div>
-    </fieldset>
-    <fieldset>
-      <legend class="visually-hidden">
-        Layer
-      </legend>
-      <div class="layer-options">
-        <div class="layer-option">
-          <input id="layer-points" name="layer" type="radio" value="points" checked>
-          <label class="" for="layer-points">
-            Vote Dots
-          </label>
-        </div>
-        <div class="layer-option">
-          <input id="layer-precincts" name="layer" type="radio" value="precincts">
-          <label class="" for="layer-precincts">
-            Precincts
-          </label>
-        </div>
       </div>
     </fieldset>
     {# TODO: Data notes? #}

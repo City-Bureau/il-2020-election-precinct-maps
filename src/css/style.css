@@ -30,14 +30,6 @@ dd {
   margin: 0;
 }
 
-/* Set core body defaults */
-body {
-  min-height: 100vh;
-  scroll-behavior: smooth;
-  text-rendering: optimizeSpeed;
-  line-height: 1.5;
-}
-
 /* Remove list styles on ul, ol elements with a class attribute */
 ul[class],
 ol[class] {
@@ -103,6 +95,8 @@ body {
   font-weight: 400;
   color: #2c2e35;
   scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
 }
 
 html,
@@ -113,8 +107,13 @@ body,
     "Droid Sans", "Helvetica", "Arial", sans-serif;
 }
 
+html {
+  height: -webkit-fill-available;
+}
+
 body {
   min-height: 100vh;
+  min-height: -webkit-fill-available;
 }
 
 a {
@@ -130,6 +129,7 @@ a:focus {
 
 main {
   min-height: 100vh;
+  min-height: -webkit-fill-available;
   max-width: 720px;
   margin: auto;
 }
@@ -169,13 +169,8 @@ main {
 }
 
 main.map {
-  min-height: 0;
-  height: 100vh;
-  width: 100vw;
-  max-width: 100%;
   padding: 0;
   margin: 0;
-  position: relative;
 }
 
 .mapboxgl-popup {
@@ -208,7 +203,6 @@ main.map {
   height: 64px;
 }
 
-/* TODO: Border shadow on overflow */
 #legend {
   position: absolute;
   left: 0;
@@ -217,13 +211,22 @@ main.map {
   max-height: 180px;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  background-color: rgba(255, 255, 255, 0.8);
   padding: 8px 12px;
+  background: radial-gradient(
+      farthest-side at 50% 100%,
+      rgba(34, 34, 34, 0.3),
+      rgba(0, 0, 0, 0)
+    )
+    0 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: 100% 8px;
 }
 
 #legend h1 {
   font-size: 18px;
-  margin-bottom: 12px;
+  margin-bottom: 0;
 }
 
 #legend legend {
@@ -239,7 +242,6 @@ main.map {
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
-  margin-top: 8px;
   margin-bottom: 12px;
   border-radius: 4px;
   background-color: #fff;
@@ -311,6 +313,7 @@ main.map {
   display: block;
   font-weight: 600;
   cursor: pointer;
+  margin-bottom: 6px;
 }
 
 .bold {
@@ -420,7 +423,13 @@ main.map {
     right: 8px;
     left: auto;
     width: 360px;
-    max-height: 360px;
+    max-height: inherit;
+    overflow-y: visible;
+    background: none;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  #legend h1 {
+    margin-bottom: 12px;
   }
 }
 

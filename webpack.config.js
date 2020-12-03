@@ -40,10 +40,7 @@ const config = {
                   "@babel/preset-env",
                   {
                     debug: true,
-                    targets:
-                      process.env.NODE_ENV === "production"
-                        ? [">1%", "ie 11", "not op_mini all"]
-                        : ["Last 2 Firefox versions"],
+                    targets: [">1%", "ie 11", "not op_mini all"],
                     useBuiltIns: "usage",
                     corejs: 3,
                     modules: false,

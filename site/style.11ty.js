@@ -12,12 +12,13 @@ exports.render = ({ site }) =>
         type: "vector",
         url: `https://api.maptiler.com/tiles/v3/tiles.json?key=${site.openmaptilesKey}`,
       },
-      // TODO: Attributions, link to more details on attribution for specific layers
       precincts: {
         type: "vector",
         tiles: [site.precinctTiles],
         minzoom: 5,
         maxzoom: 11,
+        attribution:
+          '<a href="https://github.com/pjsier/il-2020-election-precinct-data">IL State Board of Elections, local authorities</a> | <a href="https://doi.org/10.7910/DVN/NH5S2I/IJPOUH">Voting and Election Science Team, Harvard Dataverse</a>',
       },
       "points-il-constitution": {
         type: "raster",
