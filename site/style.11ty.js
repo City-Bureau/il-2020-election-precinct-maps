@@ -17,6 +17,7 @@ exports.render = ({ site }) =>
         tiles: [site.precinctTiles],
         minzoom: 5,
         maxzoom: 11,
+        bounds: site.bounds,
         attribution:
           '<a href="https://github.com/pjsier/il-2020-election-precinct-data">IL State Board of Elections, local authorities</a> | <a href="https://doi.org/10.7910/DVN/NH5S2I/IJPOUH">Voting and Election Science Team, Harvard Dataverse</a>',
       },
@@ -25,6 +26,7 @@ exports.render = ({ site }) =>
         tiles: [site.ilConstitutionPointTiles],
         minzoom: 6,
         maxzoom: 12,
+        bounds: site.bounds,
         tileSize: 256, // Allows for higher resolutions at lower zooms
       },
       "points-us-president": {
@@ -32,6 +34,7 @@ exports.render = ({ site }) =>
         tiles: [site.usPresidentPointTiles],
         minzoom: 6,
         maxzoom: 12,
+        bounds: site.bounds,
         tileSize: 256, // Allows for higher resolutions at lower zooms
       },
       "points-us-senate": {
@@ -39,6 +42,7 @@ exports.render = ({ site }) =>
         tiles: [site.usSenatePointTiles],
         minzoom: 6,
         maxzoom: 12,
+        bounds: site.bounds,
         tileSize: 256,
       },
       "points-ballots": {
@@ -46,6 +50,7 @@ exports.render = ({ site }) =>
         tiles: [site.ballotPointTiles],
         minzoom: 6,
         maxzoom: 12,
+        bounds: site.bounds,
         tileSize: 256,
       },
       "points-il-constitution-png": {
@@ -53,6 +58,7 @@ exports.render = ({ site }) =>
         tiles: [site.ilConstitutionPointTiles.replace(".webp", ".png")],
         minzoom: 6,
         maxzoom: 12,
+        bounds: site.bounds,
         tileSize: 256,
       },
       "points-us-president-png": {
@@ -60,6 +66,7 @@ exports.render = ({ site }) =>
         tiles: [site.usPresidentPointTiles.replace(".webp", ".png")],
         minzoom: 6,
         maxzoom: 12,
+        bounds: site.bounds,
         tileSize: 256,
       },
       "points-us-senate-png": {
@@ -67,6 +74,7 @@ exports.render = ({ site }) =>
         tiles: [site.usSenatePointTiles.replace(".webp", ".png")],
         minzoom: 6,
         maxzoom: 12,
+        bounds: site.bounds,
         tileSize: 256,
       },
       "points-ballots-png": {
@@ -74,6 +82,7 @@ exports.render = ({ site }) =>
         tiles: [site.ballotPointTiles.replace(".webp", ".png")],
         minzoom: 6,
         maxzoom: 12,
+        bounds: site.bounds,
         tileSize: 256,
       },
     },
@@ -244,7 +253,7 @@ exports.render = ({ site }) =>
         source: "points-us-senate",
         type: "raster",
         layout: {
-          visibility: "visible",
+          visibility: "none",
         },
       },
       {
@@ -252,7 +261,7 @@ exports.render = ({ site }) =>
         source: "points-ballots",
         type: "raster",
         layout: {
-          visibility: "visible",
+          visibility: "none",
         },
       },
       {

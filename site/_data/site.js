@@ -26,6 +26,8 @@ const ballotPointTiles = production
   ? `${host}${baseurl}/tiles/ballots/{z}/{x}/{y}.webp`
   : "http://localhost:8000/raster/ballots/{z}/{x}/{y}.webp"
 
+const bounds = [-91.5131, 36.9701, -87.0199, 42.5082]
+
 module.exports = {
   name: "Illinois 2020 Election Maps",
   title: "Illinois 2020 Election Maps",
@@ -39,6 +41,7 @@ module.exports = {
   googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
   locale: "en-us",
   openmaptilesKey: process.env.OPENMAPTILES_KEY,
+  bounds,
   precinctTiles,
   ilConstitutionPointTiles,
   usPresidentPointTiles,
