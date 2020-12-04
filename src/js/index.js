@@ -328,10 +328,9 @@ function onMapLoad(map) {
 
     if (type === "Point Address") {
       map.once("moveend", () => {
-        const features = map.queryRenderedFeatures([lon, lat], {
+        const features = map.queryRenderedFeatures(map.project([lon, lat]), {
           layers: [eventLayer],
         })
-        console.log(features, lon, lat)
         handleFeaturesHover([])
         handleFeaturesClick(clickPopup.isOpen() ? [] : features)
         if (features.length > 0) {
