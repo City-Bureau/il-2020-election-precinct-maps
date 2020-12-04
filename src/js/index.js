@@ -321,7 +321,8 @@ function onMapLoad(map) {
 
   setupGeocoder(({ type, lat, lon }) => {
     const zoom = type === "Point Address" ? 12 : 11
-    map.flyTo({ center: [lon, lat], zoom, padding: { top: 150 } })
+    map.flyTo({ center: [lon, lat], zoom })
+
     if (type === "Point Address") {
       map.once("moveend", () => {
         const features = map.queryRenderedFeatures([lon, lat], {
@@ -348,7 +349,7 @@ function setupMap() {
 
   const map = new window.mapboxgl.Map({
     container: mapContainer,
-    center: [-90, 39.6],
+    center: [-89.3, 39.52],
     minZoom: 5.6,
     maxZoom: 12,
     zoom: 5.6,

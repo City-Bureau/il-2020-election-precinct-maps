@@ -188,8 +188,8 @@ main.map {
 
 #logo {
   position: absolute;
-  bottom: 160px;
-  left: 0;
+  top: 8px;
+  left: 8px;
   padding: 2px;
   padding-left: 4px;
   background-color: rgba(255, 255, 255, 0.8);
@@ -237,6 +237,7 @@ main.map {
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-size: 100% 8px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
 }
 
 #legend h1 {
@@ -443,16 +444,22 @@ fieldset.toggle:focus-within .layer-options {
 }
 
 #geocoder-container {
-  left: 8px;
-  right: 48px;
-}
-
-#geocoder-container {
   position: absolute;
-  top: 10px;
+  bottom: 162px;
+  left: 0;
+  right: 0;
   height: 42px;
   border-radius: 2px;
   background-color: #fff;
+}
+
+#geocoder svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  width: 16px;
+  transform: translateY(-50%);
+  opacity: 0.8;
 }
 
 #geocoder-results {
@@ -461,11 +468,13 @@ fieldset.toggle:focus-within .layer-options {
   left: 0;
   right: 0;
   width: 100%;
+  z-index: 2;
   background-color: #fff;
+  box-shadow: 0 3px 2px -2px rgba(0, 0, 0, 0.25);
 }
 
 #geocoder-results .result {
-  padding: 6px;
+  padding: 6px 12px;
   background-color: #fff;
   cursor: pointer;
   max-width: 100%;
@@ -502,10 +511,12 @@ fieldset.toggle:focus-within .layer-options {
   appearance: none;
   align-items: center;
   justify-content: flex-start;
-  box-shadow: none;
+  text-overflow: ellipsis;
   border-radius: 0;
   border: solid 1px #d5d5d5;
-  padding: 6px 8px;
+  padding: 12px 8px;
+  padding-left: 34px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.25);
 }
 #geocoder-search::placeholder {
   color: #2c2e35;
@@ -567,24 +578,24 @@ fieldset.toggle:focus-within .layer-options {
 
 #geocoder-clear {
   position: absolute;
-  right: 8px;
+  right: 12px;
   top: 10px;
   display: none;
 }
 
 #geocoder-search.has-value {
-  padding-right: 32px;
+  padding-right: 36px;
 }
 #geocoder-search.has-value + #geocoder-clear {
   display: inline-block;
 }
 
 @media screen and (min-width: 600px) {
-  #geocoder-container,
-  #geocoder-results {
+  #geocoder-container {
+    width: 360px;
     left: auto;
-    max-width: 450px;
-    width: 100%;
+    right: 8px;
+    bottom: 292px;
   }
 
   #legend {
