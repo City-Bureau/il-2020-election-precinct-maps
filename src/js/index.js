@@ -319,9 +319,12 @@ function onMapLoad(map) {
       input.addEventListener("change", onViewChange)
     })
 
+  map.resize()
+
   setupGeocoder(({ type, lat, lon }) => {
     const zoom = type === "Point Address" ? 12 : 11
-    map.flyTo({ center: [lon, lat], zoom })
+    map.flyTo({ center: [lon, lat], zoom, padding: { bottom: 400 } })
+    map.resize()
 
     if (type === "Point Address") {
       map.once("moveend", () => {
