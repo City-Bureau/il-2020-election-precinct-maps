@@ -6,6 +6,8 @@ function updateSearchParams() {
   formObjToSearchParams(formToObj(form))
 }
 
+const isMobile = () => window.innerWidth <= 600
+
 function getMapLayer() {
   return document.querySelector(`input[name="layer"]:checked`).value
 }
@@ -249,7 +251,7 @@ function onMapLoad(map) {
     handleFeaturesHover(features)
     if (features.length > 0 && !clickPopup.isOpen()) {
       map.getCanvas().style.cursor = "pointer"
-      if (window.innerWidth >= 600) {
+      if (!isMobile()) {
         hoverPopup
           .setLngLat(e.lngLat)
           .setHTML(popupContent(getMapRace(), features[0]))
@@ -323,7 +325,11 @@ function onMapLoad(map) {
 
   setupGeocoder(({ type, lat, lon }) => {
     const zoom = type === "Point Address" ? 12 : 11
-    map.flyTo({ center: [lon, lat], zoom, padding: { bottom: 400 } })
+    map.flyTo({
+      center: [lon, lat],
+      zoom,
+      padding: { bottom: isMobile() ? 400 : 0 },
+    })
     map.resize()
 
     if (type === "Point Address") {
@@ -349,15 +355,18 @@ function onMapLoad(map) {
 function setupMap() {
   const mapContainer = document.getElementById("map")
 
+  const mapParams = isMobile()
+    ? { center: [-89.3, 39.52], zoom: 5.6 }
+    : { center: [-89.3, 40], zoom: 6.1 }
+
   const map = new window.mapboxgl.Map({
     container: mapContainer,
-    center: [-89.3, 39.52],
     minZoom: 5.6,
     maxZoom: 12,
-    zoom: 5.6,
     hash: true,
     dragRotate: false,
     style: `style.json`,
+    ...mapParams,
   })
 
   map.touchZoomRotate.disableRotation()
