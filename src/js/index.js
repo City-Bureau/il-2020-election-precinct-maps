@@ -1,4 +1,5 @@
 import { searchParamsToForm, formToObj, formObjToSearchParams } from "./utils"
+import { setupGeocoder } from "./geocoder"
 
 function updateSearchParams() {
   const form = document.getElementById("legend-form")
@@ -317,6 +318,29 @@ function onMapLoad(map) {
     .forEach((input) => {
       input.addEventListener("change", onViewChange)
     })
+
+  setupGeocoder(({ type, lat, lon }) => {
+    const zoom = type === "Point Address" ? 12 : 11
+    map.flyTo({ center: [lon, lat], zoom, padding: { top: 150 } })
+    if (type === "Point Address") {
+      map.once("moveend", () => {
+        const features = map.queryRenderedFeatures([lon, lat], {
+          layers: [eventLayer],
+        })
+        console.log(features, lon, lat)
+        handleFeaturesHover([])
+        handleFeaturesClick(clickPopup.isOpen() ? [] : features)
+        if (features.length > 0) {
+          map.getCanvas().style.cursor = "pointer"
+          removePopup(hoverPopup)
+          clickPopup
+            .setLngLat([lon, lat])
+            .setHTML(popupContent(getMapRace(), features[0]))
+            .addTo(map)
+        }
+      })
+    }
+  })
 }
 
 function setupMap() {

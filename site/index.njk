@@ -11,6 +11,13 @@ mapbox: true
     <img src="{{ site.url }}{% resizeImage './src/img/icon.png', '128x128' %}" alt="City Bureau logo" />
   </a>
 </div>
+<div id="geocoder-container">
+  <div id="geocoder" role="combobox" aria-haspopup="listbox" aria-expanded="false" >
+    <input type="text" id="geocoder-search" class="" name="search" aria-label="Search for an address or city" placeholder="Search for an address or city" aria-autocomplete="list" aria-controls="geocoder-results" />
+    <button type="button" class="delete" id="geocoder-clear"></button>
+  </div>
+  <ul id="geocoder-results" role="listbox" class="hidden"></ul>
+</div>
 <div id="legend">
   <h1>
     Illinois 2020 General Election
@@ -104,7 +111,7 @@ mapbox: true
         <span>100%</span>
       </div>
     </div>
-    <fieldset>
+    <fieldset class="toggle">
       <legend class="visually-hidden">
         Layer
       </legend>

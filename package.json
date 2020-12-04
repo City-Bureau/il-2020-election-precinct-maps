@@ -70,7 +70,8 @@
     "classlist-polyfill": "^1.2.0",
     "formdata-polyfill": "^3.0.20",
     "mapbox-gl": "^1.13.0",
-    "url-search-params-polyfill": "^8.1.0"
+    "url-search-params-polyfill": "^8.1.0",
+    "whatwg-fetch": "^3.5.0"
   },
   "eslintConfig": {
     "extends": [

@@ -16,7 +16,7 @@ exports.render = ({ site }) =>
         type: "vector",
         tiles: [site.precinctTiles],
         minzoom: 5,
-        maxzoom: 11,
+        maxzoom: 12,
         bounds: site.bounds,
         attribution:
           '<a href="https://github.com/pjsier/il-2020-election-precinct-data">IL State Board of Elections, local authorities</a> | <a href="https://doi.org/10.7910/DVN/NH5S2I/IJPOUH">Voting and Election Science Team, Harvard Dataverse</a>',
