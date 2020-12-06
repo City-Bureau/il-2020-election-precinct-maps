@@ -328,7 +328,7 @@ function onMapLoad(map) {
     map.flyTo({
       center: [lon, lat],
       zoom,
-      padding: { bottom: isMobile() ? 400 : 0 },
+      padding: { bottom: isMobile() ? 300 : 0 },
     })
     map.resize()
 

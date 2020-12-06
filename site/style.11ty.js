@@ -275,15 +275,27 @@ exports.render = ({ site }) =>
         paint: {
           "fill-opacity": 1,
           "fill-color": "rgba(0,0,0,0)",
-          "fill-outline-color": [
+        },
+      },
+      {
+        id: "precincts-stroke",
+        source: "precincts",
+        "source-layer": "precincts",
+        type: "line",
+        layout: {
+          visibility: "visible",
+        },
+        paint: {
+          "line-color": "rgba(50,50,50,0.5)",
+          "line-width": [
             "case",
             [
               "any",
               ["boolean", ["feature-state", "hover"], false],
               ["boolean", ["feature-state", "click"], false],
             ],
-            "rgba(0,0,0,0.7)",
-            "rgba(150,150,150,0)",
+            2,
+            0,
           ],
         },
       },
