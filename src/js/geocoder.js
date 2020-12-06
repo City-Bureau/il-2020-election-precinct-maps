@@ -1,4 +1,4 @@
-const DEBOUNCE_TIME = 500
+const DEBOUNCE_TIME = 350
 
 /* eslint-disable */
 // Debounce function from underscore
@@ -19,6 +19,14 @@ export const debounce = (func, wait, immediate) => {
 }
 /* eslint-enable */
 
+const getAddress = ({
+  entityType = null,
+  address: { freeformAddress: address, countrySecondarySubdivision: county },
+}) =>
+  entityType === "CountrySecondarySubdivision"
+    ? `${county} County, IL`
+    : address
+
 const getResults = (query, azureMapsKey) =>
   fetch(
     `https://atlas.microsoft.com/search/fuzzy/json?${new URLSearchParams({
@@ -26,8 +34,7 @@ const getResults = (query, azureMapsKey) =>
       topLeft: "42.5082,-91.5131",
       btmRight: "36.9701,-87.0199",
       countrySet: "US",
-      idxSet: ["Addr", "Geo", "PAD"].join(","),
-      extendedPostalCodesFor: ["Addr", "PAD"].join(","),
+      idxSet: ["Addr", "PAD", "Geo"].join(","),
       limit: 5,
       typeahead: true,
       "subscription-key": azureMapsKey,
@@ -36,13 +43,16 @@ const getResults = (query, azureMapsKey) =>
   )
     .then((res) => res.json())
     .then(({ results }) =>
-      results.map(
-        ({
+      results
+        .filter(
+          ({ address: { countrySubdivision: state } }) => state === "IL" // Restricting to Illinois, not just bbox
+        )
+        .map(({ type, position: { lat, lon }, ...result }) => ({
           type,
-          address: { freeformAddress: address },
-          position: { lat, lon },
-        }) => ({ type, address, lat, lon })
-      )
+          lat,
+          lon,
+          address: getAddress(result),
+        }))
     )
     .catch(() => [])
 
