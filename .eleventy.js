@@ -1,5 +1,7 @@
 require("dotenv").config()
 
+const fs = require("fs")
+const path = require("path")
 const Image = require("@11ty/eleventy-img")
 
 module.exports = function (eleventyConfig) {
@@ -34,6 +36,15 @@ module.exports = function (eleventyConfig) {
       return props.url
     }
   )
+
+  // Used to avoid nunjucks escaping includes of imported CSS
+  // cssnano was converting media queries with ID values to "{#"
+  eleventyConfig.addShortcode("includefile", function (filename) {
+    return fs.readFileSync(
+      path.join(__dirname, "site", "_includes", filename),
+      "utf8"
+    )
+  })
 
   eleventyConfig.addFilter("markdown", (value) => markdownLib.render(value))
 

@@ -1,12 +1,12 @@
 {% if mapbox %}
-<script src="static/mapbox-gl.js"></script>
+<script src="static/mapbox-gl.js" defer></script>
 <link href="static/mapbox-gl.css" rel="stylesheet" />
 {% endif %}
 
 {%- set css -%}
-  {%- include "style.css" -%}
+  {%- includefile "style.css" -%}
   {%- if style -%}
-    {%- include style -%}
+    {%- includefile style -%}
   {%- endif -%}
 {%- endset -%}
 
