@@ -116,7 +116,7 @@ exports.render = ({ site }) =>
         type: "line",
         source: "openmaptiles",
         "source-layer": "transportation",
-        minzoom: 12,
+        minzoom: 11.5,
         filter: [
           "all",
           ["==", "$type", "LineString"],
@@ -278,28 +278,6 @@ exports.render = ({ site }) =>
         },
       },
       {
-        id: "precincts-stroke",
-        source: "precincts",
-        "source-layer": "precincts",
-        type: "line",
-        layout: {
-          visibility: "visible",
-        },
-        paint: {
-          "line-color": "rgba(50,50,50,0.5)",
-          "line-width": [
-            "case",
-            [
-              "any",
-              ["boolean", ["feature-state", "hover"], false],
-              ["boolean", ["feature-state", "click"], false],
-            ],
-            2,
-            0,
-          ],
-        },
-      },
-      {
         id: "precincts-il-constitution",
         source: "precincts",
         "source-layer": "precincts",
@@ -309,16 +287,6 @@ exports.render = ({ site }) =>
           visibility: "none",
         },
         paint: {
-          "fill-outline-color": [
-            "case",
-            [
-              "any",
-              ["boolean", ["feature-state", "hover"], false],
-              ["boolean", ["feature-state", "click"], false],
-            ],
-            "rgba(0,0,0,0.7)",
-            "rgba(150,150,150,0)",
-          ],
           "fill-opacity": 0.8,
           "fill-color": [
             "case",
@@ -369,16 +337,6 @@ exports.render = ({ site }) =>
           visibility: "none",
         },
         paint: {
-          "fill-outline-color": [
-            "case",
-            [
-              "any",
-              ["boolean", ["feature-state", "hover"], false],
-              ["boolean", ["feature-state", "click"], false],
-            ],
-            "rgba(0,0,0,0.7)",
-            "rgba(150,150,150,0)",
-          ],
           "fill-opacity": 0.8,
           "fill-color": [
             "case",
@@ -418,16 +376,6 @@ exports.render = ({ site }) =>
           visibility: "none",
         },
         paint: {
-          "fill-outline-color": [
-            "case",
-            [
-              "any",
-              ["boolean", ["feature-state", "hover"], false],
-              ["boolean", ["feature-state", "click"], false],
-            ],
-            "rgba(0,0,0,0.7)",
-            "rgba(150,150,150,0)",
-          ],
           "fill-opacity": 0.8,
           "fill-color": [
             "case",
@@ -466,16 +414,6 @@ exports.render = ({ site }) =>
           visibility: "none",
         },
         paint: {
-          "fill-outline-color": [
-            "case",
-            [
-              "any",
-              ["boolean", ["feature-state", "hover"], false],
-              ["boolean", ["feature-state", "click"], false],
-            ],
-            "rgba(0,0,0,0.7)",
-            "rgba(150,150,150,0)",
-          ],
           "fill-opacity": 0.8,
           "fill-color": [
             "interpolate",
@@ -487,6 +425,29 @@ exports.render = ({ site }) =>
             "#74c476",
             1,
             "#006d2c",
+          ],
+        },
+      },
+      {
+        id: "precincts-stroke",
+        source: "precincts",
+        "source-layer": "precincts",
+        type: "line",
+        layout: {
+          visibility: "visible",
+        },
+        paint: {
+          "line-color": "rgb(86,88,93)",
+          "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0.5, 12, 1.5],
+          "line-opacity": [
+            "case",
+            [
+              "any",
+              ["boolean", ["feature-state", "hover"], false],
+              ["boolean", ["feature-state", "click"], false],
+            ],
+            1,
+            0,
           ],
         },
       },
@@ -555,7 +516,7 @@ exports.render = ({ site }) =>
         type: "symbol",
         source: "openmaptiles",
         "source-layer": "place",
-        minzoom: 12,
+        minzoom: 11.5,
         filter: [
           "all",
           ["==", "$type", "Point"],
@@ -568,7 +529,7 @@ exports.render = ({ site }) =>
           "text-max-width": 10,
           "text-size": {
             stops: [
-              [12, 12],
+              [11.5, 12],
               [16, 18],
             ],
           },
