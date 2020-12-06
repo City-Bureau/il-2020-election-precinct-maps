@@ -143,7 +143,7 @@ function popupContent(
 }
 
 function onMapLoad(map) {
-  let mapData = { hoverId: null, clickId: null }
+  let mapData = { hoverId: null, clickId: null, clickFeat: null }
 
   const eventLayer = "precincts"
   // Could query data attributes for this?
@@ -227,6 +227,7 @@ function onMapLoad(map) {
         { click: false }
       )
       mapData.clickId = null
+      mapData.clickFeat = null
     } else {
       map.setFeatureState(
         {
@@ -237,6 +238,7 @@ function onMapLoad(map) {
         { click: true }
       )
       mapData.clickId = features[0].id
+      mapData.clickFeat = features[0]
     }
   }
 
@@ -254,7 +256,12 @@ function onMapLoad(map) {
       if (!isMobile()) {
         hoverPopup
           .setLngLat(e.lngLat)
-          .setHTML(popupContent(getMapRace(), features[0]))
+          .setHTML(
+            `<div class="popup hover">${popupContent(
+              getMapRace(),
+              features[0]
+            )}</div>`
+          )
           .addTo(map)
       }
     } else {
@@ -278,7 +285,12 @@ function onMapLoad(map) {
       removePopup(hoverPopup)
       clickPopup
         .setLngLat(e.lngLat)
-        .setHTML(popupContent(getMapRace(), features[0]))
+        .setHTML(
+          `<div class="popup click">${popupContent(
+            getMapRace(),
+            features[0]
+          )}</div>`
+        )
         .addTo(map)
     }
   }
@@ -309,6 +321,16 @@ function onMapLoad(map) {
           .classList.toggle("hidden", true)
       })
 
+    // Update popup content on layer change if present
+    if (clickPopup.isOpen()) {
+      clickPopup.setHTML(
+        `<div class="popup click">${popupContent(
+          getMapRace(),
+          mapData.clickFeat
+        )}</div>`
+      )
+    }
+
     updateSearchParams()
   }
 
@@ -324,15 +346,17 @@ function onMapLoad(map) {
   map.resize()
 
   setupGeocoder(({ type, lat, lon }) => {
-    const zoom = type === "Point Address" ? 12 : 11
+    const isPoint = ["Point Address", "Address Range"].includes(type)
+    const zoom = isPoint ? 11.5 : 10
+    clickPopup.remove()
+
     map.flyTo({
       center: [lon, lat],
       zoom,
-      padding: { bottom: isMobile() ? 300 : 0 },
     })
     map.resize()
 
-    if (type === "Point Address") {
+    if (isPoint) {
       map.once("moveend", () => {
         const features = map.queryRenderedFeatures(map.project([lon, lat]), {
           layers: [eventLayer],
@@ -344,7 +368,12 @@ function onMapLoad(map) {
           removePopup(hoverPopup)
           clickPopup
             .setLngLat([lon, lat])
-            .setHTML(popupContent(getMapRace(), features[0]))
+            .setHTML(
+              `<div class="popup click">${popupContent(
+                getMapRace(),
+                features[0]
+              )}</div>`
+            )
             .addTo(map)
         }
       })
@@ -362,7 +391,7 @@ function setupMap() {
   const map = new window.mapboxgl.Map({
     container: mapContainer,
     minZoom: 5.6,
-    maxZoom: 12,
+    maxZoom: isMobile() ? 11.75 : 12,
     hash: true,
     dragRotate: false,
     style: `style.json`,
