@@ -5,164 +5,169 @@ mainClass: "map"
 mapbox: true
 ---
 <div id="map"></div>
-<div id="logo">
+<div id="header">
   <a href="https://citybureau.org" target="_blank">
     <span class="visually-hidden">City Bureau</span>
     <img src="{{ site.url }}{% resizeImage './src/img/icon.png', '128x128' %}" alt="City Bureau logo" />
   </a>
-</div>
-<div id="geocoder-container">
-  <div id="geocoder" role="combobox" aria-haspopup="listbox" aria-expanded="false" >
-    <svg aria-hidden="true" data-icon="search" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13"><path fill="currentColor" d="M9.291 8.176h-.587l-.208-.2A4.81 4.81 0 0 0 9.663 4.83 4.831 4.831 0 1 0 4.83 9.663a4.81 4.81 0 0 0 3.144-1.167l.201.208v.587L11.893 13 13 11.893 9.291 8.176zm-4.46 0a3.34 3.34 0 0 1-3.344-3.345A3.34 3.34 0 0 1 4.83 1.487 3.34 3.34 0 0 1 8.176 4.83a3.34 3.34 0 0 1-3.345 3.345z"></path></svg>
-    <input type="text" id="geocoder-search" class="" name="search" aria-label="Search for an address or city" placeholder="Search for an address or city" aria-autocomplete="list" aria-controls="geocoder-results" />
-    <button type="button" class="delete" id="geocoder-clear" aria-label="Clear search input"></button>
-  </div>
-  <ul id="geocoder-results" role="listbox" class="hidden"></ul>
-</div>
-<div id="legend">
   <h1>
     Illinois 2020 General Election
   </h1>
-  <form action="" method="GET" id="legend-form">
-    <div class="scale points" data-layer="points-us-president">
-      <div class="scale-point">
-        <span class="point dem"></span>
-        <span>Biden</span>
-      </div>
-      <div class="scale-point">
-        <span class="point rep"></span>
-        <span>Trump</span>
-      </div>
-      <div class="scale-point">
-        <span class="point other"></span>
-        <span>Other</span>
-      </div>
-      <p class="description">
-        Each dot is one vote randomly placed in its precinct
-      </p>
+</div>
+<div id="legend">
+  <div id="geocoder-container">
+    <div id="geocoder" role="combobox" aria-haspopup="listbox" aria-expanded="false" >
+      <svg aria-hidden="true" data-icon="search" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13"><path fill="currentColor" d="M9.291 8.176h-.587l-.208-.2A4.81 4.81 0 0 0 9.663 4.83 4.831 4.831 0 1 0 4.83 9.663a4.81 4.81 0 0 0 3.144-1.167l.201.208v.587L11.893 13 13 11.893 9.291 8.176zm-4.46 0a3.34 3.34 0 0 1-3.344-3.345A3.34 3.34 0 0 1 4.83 1.487 3.34 3.34 0 0 1 8.176 4.83a3.34 3.34 0 0 1-3.345 3.345z"></path></svg>
+      <input type="text" id="geocoder-search" class="" name="search" aria-label="Search for an address or city" placeholder="Search for an address or city" aria-autocomplete="list" aria-controls="geocoder-results" />
+      <button type="button" class="delete" id="geocoder-clear" aria-label="Clear search input"></button>
     </div>
-    <div class="scale points hidden" data-layer="points-il-constitution">
-      <div class="scale-point">
-        <span class="point yes"></span>
-        <span>Yes</span>
-      </div>
-      <div class="scale-point">
-        <span class="point no"></span>
-        <span>No</span>
-      </div>
-      <p class="description">
-        Each dot is one vote randomly placed in its precinct
-      </p>
-    </div>
-    <div class="scale points hidden" data-layer="points-us-senate">
-      <div class="scale-point">
-        <span class="point dem"></span>
-        <span>Durbin</span>
-      </div>
-      <div class="scale-point">
-        <span class="point rep"></span>
-        <span>Curran</span>
-      </div>
-      <div class="scale-point">
-        <span class="point wil"></span>
-        <span>Wilson</span>
-      </div>
-       <div class="scale-point">
-        <span class="point otr"></span>
-        <span>Other</span>
-      </div>
-      <p class="description">
-        Each dot is one vote randomly placed in its precinct
-      </p>
-    </div>
-    <div class="scale points hidden" data-layer="points-ballots">
-      <div class="scale-point">
-        <span class="point ballot"></span>
-        <span>Ballot</span>
-      </div>
-      <p class="description">
-        Each dot is one vote randomly placed in its precinct
-      </p>
-    </div>
-    <div class="scale precincts hidden" data-layer="precincts-us-president">
-      <div class="scale-precincts us-president"></div>
-      <div class="labels-precincts">
-        <span>Biden</span>
-        <span>Trump</span>
-      </div>
-    </div>
-    <div class="scale precincts hidden" data-layer="precincts-il-constitution">
-      <div class="scale-precincts il-constitution"></div>
-      <div class="labels-precincts">
-        <span>Yes</span>
-        <span>No</span>
-      </div>
-    </div>
-    <div class="scale precincts hidden" data-layer="precincts-us-senate">
-      <div class="scale-precincts us-senate"></div>
-      <div class="labels-precincts">
-        <span>Durbin</span>
-        <span>Curran</span>
-      </div>
-    </div>
-    <div class="scale precincts hidden" data-layer="precincts-ballots">
-      <div class="scale-precincts ballots"></div>
-      <div class="labels-precincts">
-        <span><=50% turnout</span>
-        <span>100%</span>
-      </div>
-    </div>
-    <fieldset class="toggle">
-      <legend class="visually-hidden">
-        Layer
-      </legend>
-      <div class="layer-options">
-        <div class="layer-option">
-          <input id="layer-points" name="layer" type="radio" value="points" checked>
-          <label class="" for="layer-points">
-            Vote Dots
-          </label>
+    <ul id="geocoder-results" role="listbox" class="hidden"></ul>
+  </div>
+  <div class="content">
+    <h1>
+      Illinois 2020 General Election
+    </h1>
+    <form action="" method="GET" id="legend-form">
+      <div class="scale points" data-layer="points-us-president">
+        <div class="scale-point">
+          <span class="point dem"></span>
+          <span>Biden</span>
         </div>
-        <div class="layer-option">
-          <input id="layer-precincts" name="layer" type="radio" value="precincts">
-          <label class="" for="layer-precincts">
-            Precincts
-          </label>
+        <div class="scale-point">
+          <span class="point rep"></span>
+          <span>Trump</span>
+        </div>
+        <div class="scale-point">
+          <span class="point other"></span>
+          <span>Other</span>
+        </div>
+        <p class="description">
+          Each dot is one vote randomly placed in its precinct
+        </p>
+      </div>
+      <div class="scale points hidden" data-layer="points-il-constitution">
+        <div class="scale-point">
+          <span class="point yes"></span>
+          <span>Yes</span>
+        </div>
+        <div class="scale-point">
+          <span class="point no"></span>
+          <span>No</span>
+        </div>
+        <p class="description">
+          Each dot is one vote randomly placed in its precinct
+        </p>
+      </div>
+      <div class="scale points hidden" data-layer="points-us-senate">
+        <div class="scale-point">
+          <span class="point dem"></span>
+          <span>Durbin</span>
+        </div>
+        <div class="scale-point">
+          <span class="point rep"></span>
+          <span>Curran</span>
+        </div>
+        <div class="scale-point">
+          <span class="point wil"></span>
+          <span>Wilson</span>
+        </div>
+        <div class="scale-point">
+          <span class="point otr"></span>
+          <span>Other</span>
+        </div>
+        <p class="description">
+          Each dot is one vote randomly placed in its precinct
+        </p>
+      </div>
+      <div class="scale points hidden" data-layer="points-ballots">
+        <div class="scale-point">
+          <span class="point ballot"></span>
+          <span>Ballot</span>
+        </div>
+        <p class="description">
+          Each dot is one vote randomly placed in its precinct
+        </p>
+      </div>
+      <div class="scale precincts hidden" data-layer="precincts-us-president">
+        <div class="scale-precincts us-president"></div>
+        <div class="labels-precincts">
+          <span>Biden</span>
+          <span>Trump</span>
         </div>
       </div>
-    </fieldset>
-    <fieldset>
-      <legend class="visually-hidden">
-        Race
-      </legend>
-      <div class="race-options">
-        <label>
-          <input name="race" type="radio" value="us-president" checked>
-          <span>
-            US President
-          </span>
-        </label>
-        <label>
-          <input name="race" type="radio" value="il-constitution">
-          <span>
-            Tax Amendment
-          </span>
-        </label>
-        {# TODO: Reenable Senate #}
-        {# <label>
-          <input name="race" type="radio" value="us-senate" checked>
-          <span>
-            US Senate
-          </span>
-        </label> #}
-        <label>
-          <input name="race" type="radio" value="ballots">
-          <span>
-            Turnout
-          </span>
-        </label>
+      <div class="scale precincts hidden" data-layer="precincts-il-constitution">
+        <div class="scale-precincts il-constitution"></div>
+        <div class="labels-precincts">
+          <span>Yes</span>
+          <span>No</span>
+        </div>
       </div>
-    </fieldset>
-    {# TODO: Data notes? #}
-  </form>
+      <div class="scale precincts hidden" data-layer="precincts-us-senate">
+        <div class="scale-precincts us-senate"></div>
+        <div class="labels-precincts">
+          <span>Durbin</span>
+          <span>Curran</span>
+        </div>
+      </div>
+      <div class="scale precincts hidden" data-layer="precincts-ballots">
+        <div class="scale-precincts ballots"></div>
+        <div class="labels-precincts">
+          <span><=50% turnout</span>
+          <span>100%</span>
+        </div>
+      </div>
+      <fieldset class="toggle">
+        <legend class="visually-hidden">
+          Layer
+        </legend>
+        <div class="layer-options">
+          <div class="layer-option">
+            <input id="layer-points" name="layer" type="radio" value="points" checked>
+            <label class="" for="layer-points">
+              Vote Dots
+            </label>
+          </div>
+          <div class="layer-option">
+            <input id="layer-precincts" name="layer" type="radio" value="precincts">
+            <label class="" for="layer-precincts">
+              Precincts
+            </label>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend class="visually-hidden">
+          Race
+        </legend>
+        <div class="race-options">
+          <label>
+            <input name="race" type="radio" value="us-president" checked>
+            <span>
+              US President
+            </span>
+          </label>
+          <label>
+            <input name="race" type="radio" value="il-constitution">
+            <span>
+              Tax Amendment
+            </span>
+          </label>
+          {# TODO: Reenable Senate #}
+          {# <label>
+            <input name="race" type="radio" value="us-senate" checked>
+            <span>
+              US Senate
+            </span>
+          </label> #}
+          <label>
+            <input name="race" type="radio" value="ballots">
+            <span>
+              Turnout
+            </span>
+          </label>
+        </div>
+      </fieldset>
+      {# TODO: Data notes? Link to repo? #}
+    </form>
+  </div>
 </div>

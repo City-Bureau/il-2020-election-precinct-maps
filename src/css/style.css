@@ -72,6 +72,7 @@ fieldset {
   padding-block-end: 0;
   padding-inline-start: 0;
   padding-inline-end: 0;
+  padding: 0;
   border: none;
   min-inline-size: min-content;
 }
@@ -186,35 +187,53 @@ main.map {
   bottom: 0;
 }
 
-#logo {
+#header {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  padding: 2px;
-  padding-left: 4px;
-  background-color: rgba(255, 255, 255, 0.8);
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 8px;
+  display: flex;
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0)
+  );
 }
 
-#logo a:hover,
-#logo a:focus,
-#logo a:active {
+#header a:hover,
+#header a:focus,
+#header a:active {
   filter: brightness(60%);
 }
 
-#logo img {
+#header img {
   width: 48px;
+  min-width: 48px;
   height: 48px;
 }
 
+#header h1 {
+  font-size: 16px;
+  margin-left: 12px;
+  font-weight: 600;
+  color: rgba(44, 46, 53, 0.8);
+}
+
 @media screen and (min-width: 600px) {
-  #logo {
+  #header {
     bottom: auto;
     left: 8px;
     top: 8px;
+    background: none;
   }
-  #logo img {
+  #header img {
     width: 64px;
+    min-width: 64px;
     height: 64px;
+  }
+  #header h1 {
+    display: none;
   }
 }
 
@@ -223,7 +242,10 @@ main.map {
   left: 0;
   right: 0;
   bottom: 0;
-  max-height: 160px;
+}
+
+#legend .content {
+  max-height: 140px;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   padding: 8px 12px;
@@ -238,11 +260,13 @@ main.map {
   background-attachment: scroll;
   background-size: 100% 8px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+  border: solid 1px #d5d5d5;
 }
 
 #legend h1 {
   font-size: 18px;
   margin-bottom: 0;
+  display: none;
 }
 
 #legend legend {
@@ -262,7 +286,7 @@ fieldset.toggle:focus-within .layer-options {
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   border-radius: 4px;
   background-color: #fff;
 }
@@ -346,6 +370,7 @@ fieldset.toggle:focus-within .layer-options {
 
 .scale {
   margin: 8px 0;
+  margin-top: 0;
 }
 
 .scale .description {
@@ -444,13 +469,11 @@ fieldset.toggle:focus-within .layer-options {
 }
 
 #geocoder-container {
-  position: absolute;
-  bottom: 162px;
-  left: 0;
-  right: 0;
   height: 42px;
   border-radius: 2px;
   background-color: #fff;
+  position: relative;
+  margin-bottom: 4px;
 }
 
 #geocoder svg {
@@ -511,7 +534,6 @@ fieldset.toggle:focus-within .layer-options {
   appearance: none;
   align-items: center;
   justify-content: flex-start;
-  text-overflow: ellipsis;
   border-radius: 0;
   border: solid 1px #d5d5d5;
   padding: 12px 8px;
@@ -521,6 +543,11 @@ fieldset.toggle:focus-within .layer-options {
 #geocoder-search::placeholder {
   color: #2c2e35;
   opacity: 0.8;
+}
+
+#geocoder-search:focus {
+  outline: none;
+  box-shadow: 0 0 1px 1px #0a60c2;
 }
 
 .delete {
@@ -593,23 +620,30 @@ fieldset.toggle:focus-within .layer-options {
 @media screen and (min-width: 600px) {
   #geocoder-container {
     width: 360px;
-    left: auto;
-    right: 8px;
-    bottom: 292px;
+    margin-bottom: 8px;
   }
 
   #legend {
     bottom: 24px;
     right: 8px;
     left: auto;
+  }
+
+  #legend .content {
     width: 360px;
     max-height: inherit;
     overflow-y: visible;
     background: none;
     background-color: rgba(255, 255, 255, 0.8);
   }
+
   #legend h1 {
     margin-bottom: 12px;
+    display: block;
+  }
+
+  .scale {
+    margin-top: 8px;
   }
 }
 
@@ -625,10 +659,25 @@ fieldset.toggle:focus-within .layer-options {
   background-color: rgba(255, 255, 255, 0.8);
 }
 
+.mapboxgl-popup .mapboxgl-popup-content {
+  padding: 0;
+  pointer-events: none;
+}
+
 .mapboxgl-popup-content .tooltip-row {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.mapboxgl-popup-content .popup {
+  padding: 10px 10px 15px;
+  pointer-events: none;
+}
+
+.mapboxgl-popup-close-button,
+.mapboxgl-popup-content .popup.click {
+  pointer-events: all;
 }
 
 .mapboxgl-popup-content .tooltip-row .label,
