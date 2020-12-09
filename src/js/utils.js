@@ -2,6 +2,7 @@ export function searchParamsToForm(form) {
   const searchParams = new URLSearchParams(window.location.search)
 
   for (let [key, value] of searchParams.entries()) {
+    if (!(key in form.elements)) return
     const input = form.elements[key]
     if (input.type === "checkbox") {
       input.checked = !!value
@@ -40,6 +41,7 @@ export function formToObj(form) {
 
 export function formObjToSearchParams(formObj) {
   const params = new URLSearchParams({
+    ...Object.fromEntries(new URLSearchParams(window.location.search)),
     ...Object.fromEntries(Object.entries(formObj).filter((entry) => entry[1])),
   })
   window.history.replaceState(
@@ -47,6 +49,6 @@ export function formObjToSearchParams(formObj) {
     window.document.title,
     `${window.location.protocol}//${window.location.host}${
       window.location.pathname
-    }${params.toString() === `` ? `` : `?${params}`}`
+    }${params.toString() === `` ? `` : `?${params}`}${window.location.hash}`
   )
 }

@@ -48,7 +48,6 @@ function popupContent(
   }
 ) {
   let resultsLabel = ``
-  let votesValue = 0
   let results = []
 
   // Based on d3.descending
@@ -57,7 +56,6 @@ function popupContent(
 
   if (race.includes("us-president")) {
     resultsLabel = "US President"
-    votesValue = presidentVotes
     results = [
       { label: "Biden", cls: "dem", value: presidentDem / presidentVotes },
       { label: "Trump", cls: "rep", value: presidentRep / presidentVotes },
@@ -69,14 +67,12 @@ function popupContent(
     ]
   } else if (race.includes("il-constitution")) {
     resultsLabel = "Tax Amendment"
-    votesValue = taxVotes
     results = [
       { label: "Yes", cls: "yes", value: taxYes / taxVotes },
       { label: "No", cls: "no", value: taxNo / taxVotes },
     ]
   } else if (race.includes("us-senate")) {
     resultsLabel = "US Senate"
-    votesValue = senateVotes
     results = [
       { label: "Durbin", cls: "dem", value: senateDem / senateVotes },
       { label: "Curran", cls: "rep", value: senateRep / senateVotes },
@@ -127,18 +123,6 @@ function popupContent(
           })}
         </span>
       </div>
-      ${
-        votesValue > 0
-          ? `<div class="tooltip-row">
-        <span class="bold label">Blank</span>
-        <span class="value">
-          ${Math.max(1 - votesValue / ballots, 0).toLocaleString(`en-us`, {
-            style: `percent`,
-          })}
-        </span>
-      </div>`
-          : ``
-      }
   `
 }
 
@@ -412,6 +396,12 @@ function setupMap() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Check if page is embedded, toggle some conditional styles
+  const searchParams = new URLSearchParams(window.location.search)
+  if (searchParams.get("embed")) {
+    document.documentElement.classList.toggle("embedded", true)
+  }
+
   const form = document.getElementById("legend-form")
   searchParamsToForm(form)
   setupMap()

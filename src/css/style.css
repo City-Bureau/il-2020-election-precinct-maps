@@ -187,6 +187,11 @@ main.map {
   bottom: 0;
 }
 
+/* Hide header when the page is embedded */
+.embedded #header {
+  display: none;
+}
+
 #header {
   position: absolute;
   top: 0;
