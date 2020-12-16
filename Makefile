@@ -1,5 +1,6 @@
 S3_BUCKET = city-bureau-projects
-# TODO: Change to il-2020-election-maps
+
+# DEPLOY_PATH = il-2020-election-maps
 DEPLOY_PATH = il-2020-precinct-maps-stg
 
 .PHONY: deploy-site
@@ -23,26 +24,30 @@ data/points/il-constitution.csv: data/points/il-constitution-yes.csv data/points
 data/points/us-president.csv: data/points/us-president-dem.csv data/points/us-president-rep.csv data/points/us-president-otr.csv
 	xsv cat rows $^ > $@
 
-data/points/%.csv: data/points/il.geojson
-	aggspread -agg $< -spread $< -prop '$*' -output - | \
-	mapshaper -i - format=csv -points -each 'vote = "$*"' -o $@
+data/points/us-senate.csv: data/points/us-senate-dem.csv data/points/us-senate-rep.csv data/points/us-senate-wil.csv data/points/us-senate-otr.csv
+	xsv cat rows $< > $@
 
-data/points/il.geojson: data/precincts/il.geojson
-	mapshaper -i $< \
+data/points/%.csv: data/points/il.geojson
+	aggspread -agg $< -prop '$*' -output - | \
+	npx mapshaper -i - format=csv -points -each 'vote = "$*"' -o $@
+
+data/points/il.geojson: data/precincts/il-no-water.geojson
+	npx mapshaper -i $< \
 	-filter 'this.properties["il-constitution-yes"] !== null && this.properties["us-president-dem"] !== null' remove-empty \
 	-each 'this.properties["us-president-otr"] = this.properties["us-president-votes"] - this.properties["us-president-dem"] - this.properties["us-president-rep"]' \
+	-each 'this.properties["us-senate-otr"] = this.properties["us-senate-votes"] - this.properties["us-senate-dem"] - this.properties["us-senate-rep"] - this.properties["us-senate-wil"]' \
 	-o $@
 
 tiles/vector: data/precincts/il.mbtiles
 	mkdir $@
 	tile-join --no-tile-size-limit --force -e $@ $<
 
-data/precincts/il.mbtiles: data/precincts/il.geojson
+data/precincts/il.mbtiles: data/precincts/il-no-water.geojson
 	tippecanoe \
 	--simplification=10 \
 	--simplify-only-low-zooms \
 	--minimum-zoom=5 \
-	--maximum-zoom=11 \
+	--maximum-zoom=12 \
 	--no-tile-stats \
 	--generate-ids \
 	--detect-shared-borders \
@@ -56,5 +61,22 @@ data/precincts/il.mbtiles: data/precincts/il.geojson
 	--accumulate-attribute=il-constitution-yes:sum \
 	--accumulate-attribute=il-constitution-no:sum \
 	--accumulate-attribute=il-constitution-votes:sum \
+	--accumulate-attribute=us-senate-dem:sum \
+	--accumulate-attribute=us-senate-rep:sum \
+	--accumulate-attribute=us-senate-wil:sum \
+	--accumulate-attribute=us-senate-votes:sum \
 	--force \
 	-L precincts:$< -o $@
+
+# Removing rivers from precinct boundaries to improve display
+data/precincts/il-no-water.geojson: data/osm/gis_osm_water_a_free_1.shp
+	npx mapshaper -i $< -filter '["river", "riverbank"].includes(fclass)' -o $@
+
+data/osm/gis_osm_water_a_free_1.shp: data/osm/illinois-latest-free.shp.zip
+	unzip -u $< -d $(dir $@)
+
+data/osm/illinois-latest-free.shp.zip:
+	wget -O $@ http://download.geofabrik.de/north-america/us/illinois-latest-free.shp.zip
+
+data/precincts/il.geojson:
+	wget -O $@ https://raw.githubusercontent.com/pjsier/il-2020-election-precinct-data/main/output/il.geojson

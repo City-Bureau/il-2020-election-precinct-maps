@@ -13,3 +13,5 @@ tiles/*
 data/**/*.*
 !data/precincts/.keep
 !data/points/.keep
+data/osm/*
+!data/osm/.keep
