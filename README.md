@@ -12,6 +12,10 @@ You'll need [Node](https://nodejs.org/en/) to run the site locally. To build the
 
 The code used to generate all precinct results and boundaries can be found in [pjsier/il-2020-election-precinct-data](https://github.com/pjsier/il-2020-election-precinct-data). All precinct boundaries are come from local election authorities or 2016 boundaries from the [Voting and Election Science Team, Harvard Dataverse](https://doi.org/10.7910/DVN/NH5S2I/IJPOUH) when they haven't changed. Results come from the [Illinois State Board of Elections](https://www.elections.il.gov/).
 
+## Methodology
+
+More information on the specific methodology can be found in the [source data repository](https://github.com/pjsier/il-2020-election-precinct-data#methodology).
+
 ## Acknowledgments
 
 Thanks to Paula Friedrich for being a sounding board
