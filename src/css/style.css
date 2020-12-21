@@ -139,10 +139,6 @@ main {
   margin-bottom: 8px;
 }
 
-.content a {
-  text-decoration: underline;
-}
-
 .content a:hover,
 .content a:focus,
 .content a:active {
@@ -471,6 +467,18 @@ fieldset.toggle:focus-within .layer-options {
   opacity: 0.8;
 }
 
+.scale-precincts.tax-diff {
+  background: linear-gradient(
+    to right,
+    #008837,
+    #a6dba0 25%,
+    #f7f7f7 50%,
+    #c2a5cf 75%,
+    #7b3294
+  );
+  opacity: 0.8;
+}
+
 .labels-precincts {
   display: flex;
   flex-direction: row;
@@ -674,6 +682,11 @@ fieldset.toggle:focus-within .layer-options {
   pointer-events: none;
 }
 
+.mapboxgl-popup .tooltip-results-label {
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
 .mapboxgl-popup-content .tooltip-row {
   display: flex;
   flex-direction: row;
@@ -693,6 +706,11 @@ fieldset.toggle:focus-within .layer-options {
 .mapboxgl-popup-content .tooltip-row .label,
 .mapboxgl-popup-content .tooltip-row .value {
   flex: 1;
+}
+
+.mapboxgl-popup-content .tooltip-row .value {
+  padding-left: 6px;
+  max-width: 50%;
 }
 
 .mapboxgl-popup-content .point {
@@ -717,5 +735,5 @@ fieldset.toggle:focus-within .layer-options {
 .mapboxgl-popup-content h3 {
   font-size: 16px;
   line-height: 1;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }

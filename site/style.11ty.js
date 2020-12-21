@@ -429,6 +429,41 @@ exports.render = ({ site }) =>
         },
       },
       {
+        id: "precincts-tax-diff",
+        source: "precincts",
+        "source-layer": "precincts",
+        type: "fill",
+        layout: {
+          visibility: "none",
+        },
+        paint: {
+          "fill-opacity": 0.8,
+          "fill-color": [
+            "interpolate",
+            ["linear"],
+            [
+              "-",
+              [
+                "/",
+                ["get", "il-constitution-yes"],
+                ["get", "il-constitution-votes"],
+              ],
+              ["/", ["get", "us-president-dem"], ["get", "us-president-votes"]],
+            ],
+            -0.4,
+            "#008837",
+            -0.2,
+            "#a6dba0",
+            0,
+            "#f7f7f7",
+            0.2,
+            "#c2a5cf",
+            0.4,
+            "#7b3294",
+          ],
+        },
+      },
+      {
         id: "precincts-stroke",
         source: "precincts",
         "source-layer": "precincts",

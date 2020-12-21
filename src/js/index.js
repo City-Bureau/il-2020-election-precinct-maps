@@ -26,6 +26,23 @@ function checkWebPSupport() {
   })
 }
 
+// Based on d3.descending
+const sortByValue = ({ value: a }, { value: b }) =>
+  b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN
+
+function taxDiffPopupContent({
+  precinct,
+  authority,
+  registered,
+  ballots,
+  taxYes,
+  taxVotes,
+  presidentDem,
+  presidentVotes,
+}) {
+  return ``
+}
+
 function popupContent(
   race,
   {
@@ -49,10 +66,6 @@ function popupContent(
 ) {
   let resultsLabel = ``
   let results = []
-
-  // Based on d3.descending
-  const sortByValue = ({ value: a }, { value: b }) =>
-    b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN
 
   if (race.includes("us-president")) {
     resultsLabel = "US President"
@@ -83,10 +96,21 @@ function popupContent(
         value: (senateVotes - senateDem - senateRep - senateWil) / senateVotes,
       },
     ]
+  } else if (race.includes("tax-diff")) {
+    return taxDiffPopupContent({
+      precinct,
+      authority,
+      registered,
+      ballots,
+      taxYes,
+      taxVotes,
+      presidentDem,
+      presidentVotes,
+    })
   }
   const resultsContent =
     results.length > 0
-      ? `<p class="bold">${resultsLabel}</p>
+      ? `<p class="bold tooltip-results-label">${resultsLabel}</p>
       ${results
         .sort(sortByValue)
         .map(
@@ -404,5 +428,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const form = document.getElementById("legend-form")
   searchParamsToForm(form)
+
+  // Hide controls if showing Biden/Tax Amendment difference
+  if (getMapRace() === "tax-diff") {
+    form.querySelectorAll("fieldset").forEach((fieldset) => {
+      fieldset.classList.toggle("hidden", true)
+    })
+  }
+
   setupMap()
 })

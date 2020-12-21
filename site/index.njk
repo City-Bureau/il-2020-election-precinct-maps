@@ -118,6 +118,13 @@ canonical: https://citybureau.org/
           <span>100%</span>
         </div>
       </div>
+      <div class="scale precincts hidden" data-layer="precincts-tax-diff">
+        <div class="scale-precincts tax-diff"></div>
+        <div class="labels-precincts">
+          <span>Tax Yes -40%</span>
+          <span>Tax Yes +40%</span>
+        </div>
+      </div>
       <fieldset class="toggle">
         <legend class="visually-hidden">
           Layer
@@ -168,9 +175,19 @@ canonical: https://citybureau.org/
               Ballots/Turnout
             </span>
           </label>
+          <label class="hidden">
+            <input name="race" type="radio" value="tax-diff">
+            <span>
+              Biden/Tax Diff
+            </span>
+          </label>
         </div>
       </fieldset>
-      {# TODO: Data notes? Link to repo? #}
+      <small>
+        <a href="https://github.com/City-Bureau/il-2020-election-precinct-maps" target="_blank">
+          More info on our data and methodology
+        </a>
+      </small>
     </form>
   </div>
 </div>
