@@ -1,7 +1,5 @@
 S3_BUCKET = city-bureau-projects
-
-# DEPLOY_PATH = il-2020-election-maps
-DEPLOY_PATH = il-2020-precinct-maps-stg
+DEPLOY_PATH = il-2020-election-maps
 
 .PHONY: deploy-site
 deploy-site:
@@ -25,7 +23,7 @@ data/points/us-president.csv: data/points/us-president-dem.csv data/points/us-pr
 	xsv cat rows $^ > $@
 
 data/points/us-senate.csv: data/points/us-senate-dem.csv data/points/us-senate-rep.csv data/points/us-senate-wil.csv data/points/us-senate-otr.csv
-	xsv cat rows $< > $@
+	xsv cat rows $^ > $@
 
 data/points/%.csv: data/points/il.geojson
 	aggspread -agg $< -prop '$*' -output - | \
@@ -68,8 +66,11 @@ data/precincts/il.mbtiles: data/precincts/il-no-water.geojson
 	--force \
 	-L precincts:$< -o $@
 
+data/precincts/il-no-water.geojson: data/precincts/il.geojson data/precincts/il-water.geojson
+	npx mapshaper -i $< -erase $(filter-out $<,$^) -o $@
+
 # Removing rivers from precinct boundaries to improve display
-data/precincts/il-no-water.geojson: data/osm/gis_osm_water_a_free_1.shp
+data/precincts/il-water.geojson: data/osm/gis_osm_water_a_free_1.shp
 	npx mapshaper -i $< -filter '["river", "riverbank"].includes(fclass)' -o $@
 
 data/osm/gis_osm_water_a_free_1.shp: data/osm/illinois-latest-free.shp.zip

@@ -366,7 +366,6 @@ exports.render = ({ site }) =>
           ],
         },
       },
-      // TODO: Find if Wilson or Malouf won any precincts
       {
         id: "precincts-us-senate",
         source: "precincts",

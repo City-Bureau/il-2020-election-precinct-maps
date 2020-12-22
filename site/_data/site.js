@@ -4,7 +4,7 @@ const host = production
   ? "https://projects.citybureau.org"
   : "http://localhost:8080"
 
-const baseurl = production ? "/il-2020-precinct-maps-stg" : ""
+const baseurl = production ? "/il-2020-election-maps" : ""
 
 const precinctTiles = production
   ? `${host}${baseurl}/tiles/{z}/{x}/{y}.pbf`
@@ -34,9 +34,8 @@ module.exports = {
   type: "website",
   baseurl,
   url: `${host}${baseurl}`,
-  // TODO: Update description
   description:
-    "Precinct-level election results for the 2020 Illinois general election",
+    "Precinct-level election maps for the 2020 Illinois general election",
   production,
   googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
   locale: "en-us",

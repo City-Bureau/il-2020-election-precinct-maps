@@ -30,18 +30,18 @@ function checkWebPSupport() {
 const sortByValue = ({ value: a }, { value: b }) =>
   b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN
 
-function taxDiffPopupContent({
-  precinct,
-  authority,
-  registered,
-  ballots,
-  taxYes,
-  taxVotes,
-  presidentDem,
-  presidentVotes,
-}) {
-  return ``
-}
+// function taxDiffPopupContent({
+//   precinct,
+//   authority,
+//   registered,
+//   ballots,
+//   taxYes,
+//   taxVotes,
+//   presidentDem,
+//   presidentVotes,
+// }) {
+//   return ``
+// }
 
 function popupContent(
   race,
@@ -49,8 +49,8 @@ function popupContent(
     properties: {
       precinct,
       authority,
-      registered,
-      ballots,
+      // registered,
+      // ballots,
       [`us-president-dem`]: presidentDem,
       [`us-president-rep`]: presidentRep,
       [`us-president-votes`]: presidentVotes,
@@ -66,6 +66,7 @@ function popupContent(
 ) {
   let resultsLabel = ``
   let results = []
+  let ballots = null
 
   if (race.includes("us-president")) {
     resultsLabel = "US President"
@@ -78,12 +79,14 @@ function popupContent(
         value: (presidentVotes - presidentDem - presidentRep) / presidentVotes,
       },
     ]
+    ballots = presidentVotes
   } else if (race.includes("il-constitution")) {
     resultsLabel = "Tax Amendment"
     results = [
       { label: "Yes", cls: "yes", value: taxYes / taxVotes },
       { label: "No", cls: "no", value: taxNo / taxVotes },
     ]
+    ballots = taxVotes
   } else if (race.includes("us-senate")) {
     resultsLabel = "US Senate"
     results = [
@@ -96,17 +99,19 @@ function popupContent(
         value: (senateVotes - senateDem - senateRep - senateWil) / senateVotes,
       },
     ]
+    ballots = senateVotes
   } else if (race.includes("tax-diff")) {
-    return taxDiffPopupContent({
-      precinct,
-      authority,
-      registered,
-      ballots,
-      taxYes,
-      taxVotes,
-      presidentDem,
-      presidentVotes,
-    })
+    return ``
+    // return taxDiffPopupContent({
+    //   precinct,
+    //   authority,
+    //   // registered,
+    //   // ballots,
+    //   taxYes,
+    //   taxVotes,
+    //   presidentDem,
+    //   presidentVotes,
+    // })
   }
   const resultsContent =
     results.length > 0
@@ -133,20 +138,13 @@ function popupContent(
   <h3>${precinct}</h2>
   ${resultsContent}
   <div class="turnout-content">
-      <div class="tooltip-row">
-        <span class="bold label">Ballots</span>
-        <span class="value">
-          ${ballots.toLocaleString(`en-us`)}
-        </span>
-      </div>
-      <div class="tooltip-row">
-        <span class="bold label">Turnout</span>
-        <span class="value">
-          ${(ballots / registered).toLocaleString(`en-us`, {
-            style: `percent`,
-          })}
-        </span>
-      </div>
+    <div class="tooltip-row">
+      <span class="bold label">Ballots</span>
+      <span class="value">
+        ${ballots.toLocaleString(`en-us`)}
+      </span>
+    </div>
+  </div>
   `
 }
 
@@ -158,12 +156,12 @@ function onMapLoad(map) {
   const layers = [
     "precincts-us-president",
     "precincts-il-constitution",
-    // "precincts-us-senate",
-    "precincts-ballots",
+    "precincts-us-senate",
+    // "precincts-ballots",
     "points-us-president",
     "points-il-constitution",
-    // "points-us-senate",
-    "points-ballots",
+    "points-us-senate",
+    // "points-ballots",
   ]
 
   // Fallback to PNG raster layers if webP not supported
@@ -175,8 +173,8 @@ function onMapLoad(map) {
     const rasterSources = [
       "points-us-president",
       "points-il-constitution",
-      // "points-us-senate",
-      "points-ballots",
+      "points-us-senate",
+      // "points-ballots",
     ]
     rasterSources.forEach((source) => {
       const layers = map.getStyle().layers

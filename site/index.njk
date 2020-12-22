@@ -111,13 +111,13 @@ canonical: https://citybureau.org/
           <span>Curran</span>
         </div>
       </div>
-      <div class="scale precincts hidden" data-layer="precincts-ballots">
+      {# <div class="scale precincts hidden" data-layer="precincts-ballots">
         <div class="scale-precincts ballots"></div>
         <div class="labels-precincts">
           <span><=50% turnout</span>
           <span>100%</span>
         </div>
-      </div>
+      </div> #}
       <div class="scale precincts hidden" data-layer="precincts-tax-diff">
         <div class="scale-precincts tax-diff"></div>
         <div class="labels-precincts">
@@ -161,20 +161,19 @@ canonical: https://citybureau.org/
               Tax Amendment
             </span>
           </label>
-          {# TODO: Reenable Senate #}
-          {# <label>
-            <input name="race" type="radio" value="us-senate" checked>
+          <label>
+            <input name="race" type="radio" value="us-senate">
             <span>
               US Senate
             </span>
-          </label> #}
-          {# TODO: Drop turnout for initial depending on data? #}
-          <label>
+          </label>
+          {# TODO: Re-add when data fixed #}
+          {# <label>
             <input name="race" type="radio" value="ballots">
             <span>
               Ballots/Turnout
             </span>
-          </label>
+          </label> #}
           <label class="hidden">
             <input name="race" type="radio" value="tax-diff">
             <span>
