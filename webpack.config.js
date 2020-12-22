@@ -15,7 +15,7 @@ const config = {
       process.env.NODE_ENV === "production"
         ? "[name].[chunkhash].js"
         : "[name].js",
-    publicPath: "/static/",
+    publicPath: "static/",
   },
   optimization:
     process.env.NODE_ENV === "production"
