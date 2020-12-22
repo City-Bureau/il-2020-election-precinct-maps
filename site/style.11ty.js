@@ -10,7 +10,10 @@ exports.render = ({ site }) =>
     sources: {
       openmaptiles: {
         type: "vector",
-        url: `https://api.maptiler.com/tiles/v3/tiles.json?key=${site.openmaptilesKey}`,
+        maxzoom: 14,
+        tiles: ["https://tiles.citybureau.org/{z}/{x}/{y}.pbf"],
+        attribution:
+          '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
       },
       precincts: {
         type: "vector",
@@ -87,7 +90,7 @@ exports.render = ({ site }) =>
       },
     },
     sprite: "https://openmaptiles.github.io/maptiler-toner-gl-style/sprite",
-    glyphs: `https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=${site.openmaptilesKey}`,
+    glyphs: "https://tiles.citybureau.org/fonts/{fontstack}/{range}.pbf",
     layers: [
       {
         id: "background",
@@ -496,7 +499,7 @@ exports.render = ({ site }) =>
         layout: {
           "icon-anchor": "center",
           "text-field": "{name:latin}",
-          "text-font": ["Nunito Regular"],
+          "text-font": ["PT Sans Regular"],
           "text-max-width": 10,
           "text-size": {
             stops: [
@@ -527,7 +530,7 @@ exports.render = ({ site }) =>
         layout: {
           "icon-anchor": "center",
           "text-field": "{name:latin}",
-          "text-font": ["Nunito Regular"],
+          "text-font": ["PT Sans Regular"],
           "text-max-width": 10,
           "text-size": {
             stops: [
@@ -559,7 +562,7 @@ exports.render = ({ site }) =>
         layout: {
           "text-anchor": "center",
           "text-field": "{name:latin} {name:nonlatin}",
-          "text-font": ["Nunito Regular"],
+          "text-font": ["PT Sans Regular"],
           "text-max-width": 10,
           "text-size": {
             stops: [

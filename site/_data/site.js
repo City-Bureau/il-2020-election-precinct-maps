@@ -39,7 +39,6 @@ module.exports = {
   production,
   googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
   locale: "en-us",
-  openmaptilesKey: process.env.OPENMAPTILES_KEY,
   azureMapsKey: process.env.AZURE_MAPS_KEY,
   bounds,
   precinctTiles,
