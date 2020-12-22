@@ -226,7 +226,7 @@ main.map {
   color: rgba(44, 46, 53, 0.8);
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 800px) {
   #header {
     bottom: auto;
     left: 8px;
@@ -635,7 +635,7 @@ fieldset.toggle:focus-within .layer-options {
   display: inline-block;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 800px) {
   #geocoder-container {
     width: 360px;
     margin-bottom: 8px;
