@@ -401,12 +401,18 @@ function setupMap() {
     hash: true,
     dragRotate: false,
     style: `style.json`,
+    attributionControl: false,
     ...mapParams,
   })
 
   map.touchZoomRotate.disableRotation()
 
   map.once("styledata", () => {
+    map.addControl(
+      new window.mapboxgl.AttributionControl({
+        compact: window.innerWidth < 800,
+      })
+    )
     map.addControl(
       new window.mapboxgl.NavigationControl({ showCompass: false })
     )
